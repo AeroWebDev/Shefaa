@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PS Cafe Manager — Run Your PlayStation Cafe Smarter</title>
+<meta name="description" content="PS Cafe Manager is a desktop app for gaming cafe owners to manage PlayStation sessions, bookings, pricing, devices, customers and revenue from one dashboard." />
+<meta property="og:title" content="PS Cafe Manager — Run Your PlayStation Cafe Smarter" />
+<meta property="og:description" content="Manage sessions, bookings, devices, pricing, customers and revenue — all from one powerful desktop application built for PlayStation cafes." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+  :root{
+    --bg-0:#05050F;
+    --bg-1:#080817;
+    --bg-2:#0B0A1D;
+    --panel:#0D0C20;
+    --panel-line:rgba(148,163,184,0.10);
+    --purple-1:#7C3AED;
+    --purple-2:#8B5CF6;
+    --purple-3:#6D28D9;
+    --cyan:#22D3EE;
+    --cyan-2:#06B6D4;
+    --ink-0:#F8FAFC;
+    --ink-1:#CBD5E1;
+    --ink-2:#94A3B8;
+    --green:#34D399;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg-0);
+    color:var(--ink-0);
+    font-family:'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,.display{
+    font-family:'Plus Jakarta Sans', 'Inter', sans-serif;
+    letter-spacing:-0.02em;
+  }
+  ::selection{ background:rgba(124,58,237,0.35); color:#fff; }
+
+  .bg-grid{
+    background-image:
+      linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 45%, transparent 100%);
+  }
+  .glow-purple{
+    background:radial-gradient(closest-side, rgba(124,58,237,0.45), rgba(124,58,237,0) 70%);
+    filter:blur(10px);
+  }
+  .glow-cyan{
+    background:radial-gradient(closest-side, rgba(34,211,238,0.30), rgba(34,211,238,0) 70%);
+    filter:blur(10px);
+  }
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+    background-color:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:18px;
+  }
+  .panel-hover{ transition:border-color .35s ease, transform .35s ease, box-shadow .35s ease; }
+  .panel-hover:hover{
+    border-color:rgba(139,92,246,0.45);
+    transform:translateY(-3px);
+    box-shadow:0 20px 60px -20px rgba(124,58,237,0.35);
+  }
+  .grad-text{
+    background:linear-gradient(90deg,#C4B5FD 0%, #8B5CF6 45%, #22D3EE 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--purple-2), var(--purple-3));
+    box-shadow:0 10px 30px -8px rgba(124,58,237,0.55), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -8px rgba(124,58,237,0.7); filter:brightness(1.06); }
+  .btn-ghost{
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(148,163,184,0.18);
+    transition:all .25s ease;
+  }
+  .btn-ghost:hover{ background:rgba(255,255,255,0.06); border-color:rgba(203,213,225,0.35); }
+
+  .nav-glass{
+    background:rgba(5,5,15,0.55);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid rgba(148,163,184,0.08);
+  }
+
+  .float-slow{ animation:floaty 7s ease-in-out infinite; }
+  .float-slow-delay{ animation:floaty 7s ease-in-out infinite; animation-delay:1.2s; }
+  .float-slower{ animation:floaty 9s ease-in-out infinite; animation-delay:2.4s; }
+  @keyframes floaty{
+    0%,100%{ transform:translateY(0px); }
+    50%{ transform:translateY(-12px); }
+  }
+
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  .device-dot{ box-shadow:0 0 0 3px rgba(52,211,153,0.15); }
+
+  .accordion-item[open] summary .chev{ transform:rotate(45deg); }
+  summary::-webkit-details-marker{ display:none; }
+  summary{ list-style:none; cursor:pointer; }
+
+  .table-row-line{ border-bottom:1px solid rgba(148,163,184,0.08); }
+
+  .noise-card{ position:relative; }
+  .glow-border{
+    position:relative;
+    border-radius:18px;
+  }
+  .glow-border::before{
+    content:'';
+    position:absolute; inset:-1px;
+    border-radius:19px;
+    padding:1px;
+    background:linear-gradient(135deg, rgba(139,92,246,0.6), rgba(34,211,238,0.25), transparent 60%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    pointer-events:none;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .float-slow,.float-slow-delay,.float-slower{ animation:none; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+  }
+
+  .scrollbar-hide::-webkit-scrollbar{ display:none; }
+  .scrollbar-hide{ -ms-overflow-style:none; scrollbar-width:none; }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ NAVBAR ============ -->
+<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="flex items-center justify-between h-[68px]">
+      <a href="#home" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">
+          <i data-lucide="gamepad-2" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="font-semibold text-[15px] tracking-tight" style="font-family:'Plus Jakarta Sans',sans-serif;">PS Cafe <span class="text-slate-400 font-medium">Manager</span></span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8 text-[14px] text-slate-300">
+        <a href="#home" class="hover:text-white transition-colors">Home</a>
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+        <a href="#analytics" class="hover:text-white transition-colors">Analytics</a>
+        <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-3">
+        <div class="flex items-center rounded-full p-0.5 text-[12px]" style="background:rgba(255,255,255,0.04); border:1px solid rgba(148,163,184,0.14);">
+          <button class="px-3 py-1.5 rounded-full font-medium" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">EN</button>
+          <button class="px-3 py-1.5 rounded-full text-slate-400">العربية</button>
+        </div>
+        <a href="#showcase" class="btn-ghost px-4 py-2 rounded-full text-[14px] font-medium text-slate-200">View Demo</a>
+        <a href="#download" class="btn-primary px-4 py-2 rounded-full text-[14px] font-semibold text-white">Download Now</a>
+      </div>
+
+      <button id="menuBtn" aria-label="Open menu" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg btn-ghost">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobileMenu" class="lg:hidden hidden nav-glass border-t border-white/5">
+    <div class="px-5 py-4 flex flex-col gap-1 text-[15px]">
+      <a href="#home" class="py-2.5 text-slate-200">Home</a>
+      <a href="#features" class="py-2.5 text-slate-200">Features</a>
+      <a href="#how-it-works" class="py-2.5 text-slate-200">How It Works</a>
+      <a href="#analytics" class="py-2.5 text-slate-200">Analytics</a>
+      <a href="#faq" class="py-2.5 text-slate-200">FAQ</a>
+      <div class="flex gap-3 mt-3">
+        <a href="#showcase" class="btn-ghost flex-1 text-center px-4 py-2.5 rounded-full text-[14px] font-medium">View Demo</a>
+        <a href="#download" class="btn-primary flex-1 text-center px-4 py-2.5 rounded-full text-[14px] font-semibold text-white">Download</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="home" class="relative pt-40 pb-24 md:pt-48 md:pb-32">
+  <div class="absolute inset-0 bg-grid"></div>
+  <div class="absolute -top-20 left-1/3 w-[520px] h-[520px] glow-purple pointer-events-none"></div>
+  <div class="absolute top-40 right-0 w-[380px] h-[380px] glow-cyan pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
+    <div class="reveal">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[12.5px] font-medium text-violet-200 mb-6" style="background:rgba(124,58,237,0.12); border:1px solid rgba(139,92,246,0.3);">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-violet-300"></i>
+        The smart way to manage your PS cafe
+      </div>
+
+      <h1 class="text-[38px] leading-[1.08] sm:text-[48px] sm:leading-[1.06] md:text-[56px] md:leading-[1.04] font-extrabold text-white mb-6">
+        Run your <span class="grad-text">PlayStation Cafe</span> smarter.
+      </h1>
+
+      <p class="text-[16.5px] md:text-[18px] text-slate-400 leading-relaxed max-w-xl mb-9">
+        Manage sessions, bookings, devices, pricing, customers, and revenue — all from one powerful desktop application built specifically for gaming cafes.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3.5 mb-7">
+        <a href="#download" class="btn-primary px-6 py-3.5 rounded-xl text-[15px] font-semibold text-white text-center flex items-center justify-center gap-2">
+          <i data-lucide="download" class="w-[18px] h-[18px]"></i>
+          Download PS Cafe Manager
+        </a>
+        <a href="#features" class="btn-ghost px-6 py-3.5 rounded-xl text-[15px] font-semibold text-slate-100 text-center">
+          Explore Features
+        </a>
+      </div>
+
+      <div class="flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] text-slate-400 mb-8">
+        <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>Fast setup</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>Easy to use</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>Real-time session management</span>
+      </div>
+
+      <p class="text-[13px] text-slate-500">Built for modern gaming cafes</p>
+    </div>
+
+    <!-- Hero mockup -->
+    <div class="relative reveal" style="transition-delay:.15s">
+      <div class="absolute inset-8 glow-purple opacity-70"></div>
+      <div class="relative rounded-[22px] p-2.5" style="background:linear-gradient(150deg,#1c1730,#0a0a18); border:1px solid rgba(148,163,184,0.14); box-shadow:0 40px 90px -30px rgba(0,0,0,0.7);">
+        <div class="flex items-center gap-1.5 px-2.5 py-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+          <span class="ml-3 text-[11px] text-slate-500">PS Cafe — PS Cafe Manager</span>
+        </div>
+        <div class="rounded-2xl overflow-hidden" style="background:var(--bg-0); border:1px solid rgba(148,163,184,0.08);">
+          <div class="p-5">
+            <div class="flex items-center justify-between mb-5">
+              <div>
+                <p class="text-white font-bold text-[17px]" style="font-family:'Plus Jakarta Sans',sans-serif;">Dashboard</p>
+                <p class="text-[11.5px] text-slate-500 mt-0.5">3 Active · 2 Available</p>
+              </div>
+              <div class="text-[11px] px-2.5 py-1 rounded-lg text-emerald-300" style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2);">Live</div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <div class="flex items-center justify-between mb-2.5">
+                  <span class="text-[12.5px] font-semibold text-white">PS5 #1</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+                </div>
+                <p class="text-[10.5px] text-slate-500 mb-1">2:14:08 elapsed</p>
+                <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(148,163,184,0.1);">
+                  <div class="h-full rounded-full" style="width:70%; background:linear-gradient(90deg,var(--purple-2),var(--cyan));"></div>
+                </div>
+              </div>
+              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <div class="flex items-center justify-between mb-2.5">
+                  <span class="text-[12.5px] font-semibold text-white">PS4 Room</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                </div>
+                <p class="text-[10.5px] text-emerald-400 mb-1">Available</p>
+                <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(148,163,184,0.1);">
+                  <div class="h-full rounded-full w-0" style="background:var(--cyan);"></div>
+                </div>
+              </div>
+              <div class="rounded-xl p-3.5 col-span-2" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-[10.5px] text-slate-500 mb-1">Today's revenue</p>
+                    <p class="text-[19px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">4,850 EGP</p>
+                  </div>
+                  <i data-lucide="trending-up" class="w-6 h-6 text-cyan-400"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating cards -->
+      <div class="hidden md:block absolute -left-10 top-16 float-slow">
+        <div class="glow-border panel px-4 py-3 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(139,92,246,0.15);"><i data-lucide="zap" class="w-4 h-4 text-violet-300"></i></div>
+          <div>
+            <p class="text-[13px] font-semibold text-white leading-none mb-1">12 Active Sessions</p>
+            <p class="text-[11px] text-slate-500 leading-none">Across all devices</p>
+          </div>
+        </div>
+      </div>
+      <div class="hidden md:block absolute -right-8 bottom-24 float-slow-delay">
+        <div class="glow-border panel px-4 py-3 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,211,238,0.15);"><i data-lucide="calendar-clock" class="w-4 h-4 text-cyan-300"></i></div>
+          <div>
+            <p class="text-[13px] font-semibold text-white leading-none mb-1">3 Upcoming Bookings</p>
+            <p class="text-[11px] text-slate-500 leading-none">Next in 45 minutes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM ============ -->
+<section class="relative py-24 md:py-28">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-14 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Stop managing your cafe manually.</h2>
+      <p class="text-slate-400 text-[16px] leading-relaxed">Spreadsheets, notebooks, and timers weren't built for a busy gaming floor. Small mistakes cost real revenue.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="panel panel-hover reveal p-6">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.12);"><i data-lucide="timer" class="w-5 h-5 text-violet-300"></i></div>
+        <h3 class="text-white font-semibold text-[16px] mb-2">Manual session tracking</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Stop calculating session times manually or relying on paper.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.05s">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.12);"><i data-lucide="calendar-x" class="w-5 h-5 text-cyan-300"></i></div>
+        <h3 class="text-white font-semibold text-[16px] mb-2">Confusing bookings</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Keep track of reservations and avoid scheduling conflicts.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.1s">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.12);"><i data-lucide="eye-off" class="w-5 h-5 text-violet-300"></i></div>
+        <h3 class="text-white font-semibold text-[16px] mb-2">Revenue blind spots</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Know exactly how much your cafe is earning, every day.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.15s">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.12);"><i data-lucide="monitor-cog" class="w-5 h-5 text-cyan-300"></i></div>
+        <h3 class="text-white font-semibold text-[16px] mb-2">Device management</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Monitor all PlayStation stations from one place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section id="features" class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(124,58,237,0.03),transparent);">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-14 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Everything your PS cafe needs.</h2>
+      <p class="text-slate-400 text-[16px] leading-relaxed">Powerful tools designed specifically for gaming cafe owners — not a generic point-of-sale.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Feature 1 -->
+      <div class="panel panel-hover reveal p-7 lg:col-span-2">
+        <div class="flex items-start justify-between mb-5">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background:rgba(124,58,237,0.15);"><i data-lucide="play-circle" class="w-5 h-5 text-violet-300"></i></div>
+        </div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Real-time session management</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mb-4">Start, pause, and stop sessions instantly. Track elapsed and remaining time, and let pricing calculate itself.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Auto cost calculation</span>
+          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Minimum charges</span>
+          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Live session view</span>
+        </div>
+      </div>
+      <!-- Feature 2 -->
+      <div class="panel panel-hover reveal p-7">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="tv" class="w-5 h-5 text-cyan-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Device management</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">PS4, PS4 Room, PS5, and custom device types — each with its own price, status, and current customer.</p>
+      </div>
+      <!-- Feature 3 -->
+      <div class="panel panel-hover reveal p-7">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="calendar-check-2" class="w-5 h-5 text-violet-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Smart booking system</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Create reservations by device, date, and duration. Overlapping bookings are prevented automatically.</p>
+      </div>
+      <!-- Feature 4 -->
+      <div class="panel panel-hover reveal p-7">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="tags" class="w-5 h-5 text-cyan-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Flexible pricing</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Hourly rates, minimum charges, VIP rooms, discounts, and peak-hour pricing for every device type.</p>
+      </div>
+      <!-- Feature 5 -->
+      <div class="panel panel-hover reveal p-7 lg:col-span-2">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="bar-chart-3" class="w-5 h-5 text-violet-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Revenue & analytics</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mb-4">Daily, weekly, and monthly revenue, average session duration, and which devices earn the most.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Revenue by device</span>
+          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Peak hours</span>
+          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Customer activity</span>
+        </div>
+      </div>
+      <!-- Feature 6 -->
+      <div class="panel panel-hover reveal p-7">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="users" class="w-5 h-5 text-cyan-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Customer management</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Profiles with total spending, favorite device, last visit, and loyalty history.</p>
+      </div>
+      <!-- Feature 7 -->
+      <div class="panel panel-hover reveal p-7">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="layout-dashboard" class="w-5 h-5 text-violet-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Smart dashboard</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Active sessions, available devices, today's revenue, and upcoming bookings at a glance.</p>
+      </div>
+      <!-- Feature 8 -->
+      <div class="panel panel-hover reveal p-7">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="scroll-text" class="w-5 h-5 text-cyan-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Activity logs</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Every session, booking, price change, and payment recorded automatically.</p>
+      </div>
+      <!-- Feature 9 -->
+      <div class="panel panel-hover reveal p-7">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="languages" class="w-5 h-5 text-violet-300"></i></div>
+        <h3 class="text-white font-semibold text-[17px] mb-2">Multi-language</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Full English and Arabic support, including right-to-left layout.</p>
+      </div>
+      <!-- Feature 10 -->
+      <div class="panel panel-hover reveal p-7 lg:col-span-3">
+        <div class="grid sm:grid-cols-[auto,1fr] gap-6 items-center">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background:rgba(34,211,238,0.15);"><i data-lucide="file-down" class="w-5 h-5 text-cyan-300"></i></div>
+          <div>
+            <h3 class="text-white font-semibold text-[17px] mb-1.5">Reports, ready to export</h3>
+            <p class="text-slate-400 text-[13.5px] leading-relaxed">Daily, weekly, and monthly reports on revenue, device performance, and sessions — exportable to PDF or Excel/CSV.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- premium features strip -->
+    <div class="mt-14 reveal">
+      <p class="text-[13px] uppercase tracking-wide text-slate-500 mb-5">Also included</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="users-round" class="w-5 h-5 text-violet-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Customer queue</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">Wait-list customers when every device is busy.</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="bell-ring" class="w-5 h-5 text-cyan-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Notifications & alerts</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">"Session ends in 5 minutes." Never miss a beat.</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="percent" class="w-5 h-5 text-violet-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Discounts & promotions</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">Happy hour, student rates, long-session pricing.</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="shield-check" class="w-5 h-5 text-cyan-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Staff accounts</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">Owner, manager, and staff roles with permissions.</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="building-2" class="w-5 h-5 text-violet-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Multi-branch ready</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">Branch-specific devices, revenue, and analytics.</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="database-backup" class="w-5 h-5 text-cyan-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Backup & restore</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">Automatic backups and one-click data export.</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="alarm-clock" class="w-5 h-5 text-violet-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Session alerts</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">Heads-up before sessions or bookings end or start.</p>
+        </div>
+        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
+          <i data-lucide="monitor-smartphone" class="w-5 h-5 text-cyan-300 mb-3"></i>
+          <p class="text-white font-medium text-[14.5px] mb-1">Command center</p>
+          <p class="text-slate-500 text-[12.5px] leading-relaxed">See your entire cafe at a glance, from one screen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-14 flex justify-center reveal">
+      <a href="#download" class="btn-primary px-7 py-3.5 rounded-xl text-[15px] font-semibold text-white inline-flex items-center gap-2">
+        <i data-lucide="download" class="w-[18px] h-[18px]"></i> Download PS Cafe Manager
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCT SHOWCASE ============ -->
+<section id="showcase" class="relative py-24 md:py-28">
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] glow-purple opacity-40 pointer-events-none"></div>
+  <div class="relative max-w-7xl mx-auto px-5 md:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Your entire cafe. One dashboard.</h2>
+      <p class="text-slate-400 text-[16px] leading-relaxed">Sessions, devices, bookings, pricing, and analytics — all in a single, focused view.</p>
+    </div>
+
+    <div class="relative reveal">
+      <div class="relative mx-auto max-w-4xl rounded-[24px] p-3" style="background:linear-gradient(150deg,#1c1730,#0a0a18); border:1px solid rgba(148,163,184,0.14); box-shadow:0 50px 100px -30px rgba(0,0,0,0.75);">
+        <div class="flex items-center gap-1.5 px-3 py-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
+        </div>
+        <div class="rounded-2xl overflow-hidden grid md:grid-cols-[180px,1fr]" style="background:var(--bg-0); border:1px solid rgba(148,163,184,0.08);">
+          <div class="hidden md:block p-5 border-r" style="border-color:rgba(148,163,184,0.08);">
+            <div class="flex items-center gap-2 mb-8">
+              <div class="w-7 h-7 rounded-lg" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));"></div>
+              <span class="text-[13px] font-semibold text-white">PS Cafe</span>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] font-medium text-white" style="background:rgba(124,58,237,0.15);"><i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-violet-300"></i>Dashboard</div>
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] text-slate-500"><i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>Logs</div>
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] text-slate-500"><i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>Analytics</div>
+              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] text-slate-500"><i data-lucide="settings" class="w-3.5 h-3.5"></i>Settings</div>
+            </div>
+          </div>
+          <div class="p-5 md:p-7">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <p class="text-white font-bold text-[18px]" style="font-family:'Plus Jakarta Sans',sans-serif;">Dashboard</p>
+                <p class="text-[12px] text-slate-500 mt-0.5">3 Active · 2 Available</p>
+              </div>
+              <div class="text-[11.5px] px-3 py-1.5 rounded-lg font-medium text-white" style="background:rgba(124,58,237,0.5);">End Day</div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <div class="flex items-center justify-between mb-2"><span class="text-[12.5px] font-semibold text-white">PS5 #1</span><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span></div>
+                <p class="text-[10.5px] text-slate-500">60 EGP / hr · In use</p>
+              </div>
+              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <div class="flex items-center justify-between mb-2"><span class="text-[12.5px] font-semibold text-white">PS5 #2</span><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span></div>
+                <p class="text-[10.5px] text-emerald-400">Available</p>
+              </div>
+              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <div class="flex items-center justify-between mb-2"><span class="text-[12.5px] font-semibold text-white">PS4 Room</span><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span></div>
+                <p class="text-[10.5px] text-slate-500">80 EGP / hr · In use</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-3">
+              <div class="rounded-xl p-4" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <p class="text-[10.5px] text-slate-500 mb-1">Today's revenue</p>
+                <p class="text-[20px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">4,850 <span class="text-[12px] text-slate-500 font-medium">EGP</span></p>
+              </div>
+              <div class="rounded-xl p-4" style="background:var(--panel); border:1px solid var(--panel-line);">
+                <p class="text-[10.5px] text-slate-500 mb-1">Sessions today</p>
+                <p class="text-[20px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">27</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden lg:block absolute -left-6 top-10 float-slow">
+        <div class="glow-border panel px-4 py-3">
+          <p class="text-[12px] text-slate-500 mb-0.5">Available devices</p>
+          <p class="text-[15px] font-semibold text-white">8 of 12</p>
+        </div>
+      </div>
+      <div class="hidden lg:block absolute -right-6 top-40 float-slow-delay">
+        <div class="glow-border panel px-4 py-3">
+          <p class="text-[12px] text-slate-500 mb-0.5">Today's revenue</p>
+          <p class="text-[15px] font-semibold text-white">4,850 EGP</p>
+        </div>
+      </div>
+      <div class="hidden lg:block absolute -left-4 bottom-4 float-slower">
+        <div class="glow-border panel px-4 py-3">
+          <p class="text-[12px] text-slate-500 mb-0.5">Upcoming bookings</p>
+          <p class="text-[15px] font-semibold text-white">3 today</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANALYTICS ============ -->
+<section id="analytics" class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(34,211,238,0.03),transparent);">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-14 items-center">
+    <div class="reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-5">Know your numbers. Grow your cafe.</h2>
+      <p class="text-slate-400 text-[16px] leading-relaxed mb-8 max-w-lg">Every session feeds live analytics, so you always know where your revenue comes from and where it's slipping away.</p>
+
+      <div class="space-y-4">
+        <div class="flex gap-3.5">
+          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(124,58,237,0.12);"><i data-lucide="clock" class="w-[18px] h-[18px] text-violet-300"></i></div>
+          <div>
+            <p class="text-white font-medium text-[15px]">Identify your busiest hours</p>
+            <p class="text-slate-500 text-[13.5px]">Staff and stock up before demand hits.</p>
+          </div>
+        </div>
+        <div class="flex gap-3.5">
+          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(34,211,238,0.12);"><i data-lucide="monitor" class="w-[18px] h-[18px] text-cyan-300"></i></div>
+          <div>
+            <p class="text-white font-medium text-[15px]">See which devices generate the most revenue</p>
+            <p class="text-slate-500 text-[13.5px]">Reinvest in what's actually paying off.</p>
+          </div>
+        </div>
+        <div class="flex gap-3.5">
+          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(124,58,237,0.12);"><i data-lucide="user-check" class="w-[18px] h-[18px] text-violet-300"></i></div>
+          <div>
+            <p class="text-white font-medium text-[15px]">Understand customer behavior</p>
+            <p class="text-slate-500 text-[13.5px]">See who your regulars are and what they play.</p>
+          </div>
+        </div>
+        <div class="flex gap-3.5">
+          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(34,211,238,0.12);"><i data-lucide="wand-sparkles" class="w-[18px] h-[18px] text-cyan-300"></i></div>
+          <div>
+            <p class="text-white font-medium text-[15px]">Make better pricing decisions</p>
+            <p class="text-slate-500 text-[13.5px]">Set rates based on real demand, not guesswork.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:.1s">
+      <div class="panel glow-border p-6">
+        <div class="flex items-center justify-between mb-6">
+          <p class="text-white font-semibold text-[15px]">Daily revenue</p>
+          <div class="flex rounded-full p-0.5 text-[11px]" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">
+            <span class="px-2.5 py-1 rounded-full text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">Week</span>
+            <span class="px-2.5 py-1 text-slate-500">Month</span>
+          </div>
+        </div>
+        <div class="flex items-end gap-2.5 h-36 mb-2" id="chartBars">
+          <div class="flex-1 rounded-t-md" style="height:38%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
+          <div class="flex-1 rounded-t-md" style="height:55%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
+          <div class="flex-1 rounded-t-md" style="height:44%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
+          <div class="flex-1 rounded-t-md" style="height:70%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
+          <div class="flex-1 rounded-t-md" style="height:62%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
+          <div class="flex-1 rounded-t-md" style="height:88%; background:linear-gradient(180deg,var(--cyan),rgba(34,211,238,0.15));"></div>
+          <div class="flex-1 rounded-t-md" style="height:76%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
+        </div>
+        <div class="flex justify-between text-[10.5px] text-slate-500 mb-8">
+          <span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div class="rounded-xl p-3.5" style="background:var(--bg-0); border:1px solid var(--panel-line);">
+            <p class="text-[10.5px] text-slate-500 mb-1">Total earnings</p>
+            <p class="text-[16px] font-bold text-white counter" data-target="34620" style="font-family:'Plus Jakarta Sans',sans-serif;">0</p>
+          </div>
+          <div class="rounded-xl p-3.5" style="background:var(--bg-0); border:1px solid var(--panel-line);">
+            <p class="text-[10.5px] text-slate-500 mb-1">Sessions</p>
+            <p class="text-[16px] font-bold text-white counter" data-target="412" style="font-family:'Plus Jakarta Sans',sans-serif;">0</p>
+          </div>
+          <div class="rounded-xl p-3.5" style="background:var(--bg-0); border:1px solid var(--panel-line);">
+            <p class="text-[10.5px] text-slate-500 mb-1">Avg. duration</p>
+            <p class="text-[16px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">1h 48m</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING ============ -->
+<section class="relative py-24 md:py-28">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-14 items-center">
+    <div class="order-2 lg:order-1 reveal">
+      <div class="panel glow-border p-6">
+        <div class="flex items-center justify-between mb-5">
+          <p class="text-white font-semibold text-[15px]">Upcoming bookings</p>
+          <span class="text-[11px] px-2.5 py-1 rounded-full text-cyan-300" style="background:rgba(34,211,238,0.1); border:1px solid rgba(34,211,238,0.2);">Today</span>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3.5 rounded-xl" style="background:var(--bg-0); border:1px solid var(--panel-line);">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">AM</div>
+              <div>
+                <p class="text-white text-[13.5px] font-medium">Ahmed Mohamed</p>
+                <p class="text-slate-500 text-[11.5px]">PS5 #04 · 8:00 PM – 10:00 PM</p>
+              </div>
+            </div>
+            <span class="text-[11px] px-2.5 py-1 rounded-full text-emerald-300" style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2);">Confirmed</span>
+          </div>
+          <div class="flex items-center justify-between p-3.5 rounded-xl" style="background:var(--bg-0); border:1px solid var(--panel-line);">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--cyan-2),var(--purple-3));">SY</div>
+              <div>
+                <p class="text-white text-[13.5px] font-medium">Sara Youssef</p>
+                <p class="text-slate-500 text-[11.5px]">PS4 Room · 9:30 PM – 11:00 PM</p>
+              </div>
+            </div>
+            <span class="text-[11px] px-2.5 py-1 rounded-full text-amber-300" style="background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2);">Pending</span>
+          </div>
+          <div class="flex items-center justify-between p-3.5 rounded-xl" style="background:var(--bg-0); border:1px solid var(--panel-line);">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--cyan));">KH</div>
+              <div>
+                <p class="text-white text-[13.5px] font-medium">Karim Hassan</p>
+                <p class="text-slate-500 text-[11.5px]">PS5 #02 · 10:00 PM – 11:30 PM</p>
+              </div>
+            </div>
+            <span class="text-[11px] px-2.5 py-1 rounded-full text-emerald-300" style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2);">Confirmed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-1 lg:order-2 reveal" style="transition-delay:.1s">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-5">Never miss a reservation.</h2>
+      <p class="text-slate-400 text-[16px] leading-relaxed mb-8 max-w-lg">Pick a device, a time slot, and a customer — PS Cafe Manager blocks double-bookings before they happen.</p>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="flex items-center gap-2.5"><i data-lucide="calendar" class="w-[18px] h-[18px] text-violet-300"></i><span class="text-slate-300 text-[13.5px]">Full calendar view</span></div>
+        <div class="flex items-center gap-2.5"><i data-lucide="tv-2" class="w-[18px] h-[18px] text-cyan-300"></i><span class="text-slate-300 text-[13.5px]">Live device availability</span></div>
+        <div class="flex items-center gap-2.5"><i data-lucide="clock-4" class="w-[18px] h-[18px] text-violet-300"></i><span class="text-slate-300 text-[13.5px]">Custom time slots</span></div>
+        <div class="flex items-center gap-2.5"><i data-lucide="badge-check" class="w-[18px] h-[18px] text-cyan-300"></i><span class="text-slate-300 text-[13.5px]">Booking status tracking</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how-it-works" class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(124,58,237,0.03),transparent);">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-16 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Up and running in three steps.</h2>
+      <p class="text-slate-400 text-[16px] leading-relaxed">No lengthy onboarding — most cafes are fully set up within an hour.</p>
+    </div>
+
+    <div class="relative grid md:grid-cols-3 gap-8">
+      <div class="hidden md:block absolute top-6 left-[16.5%] right-[16.5%] h-px" style="background:linear-gradient(90deg,transparent,rgba(139,92,246,0.4),rgba(34,211,238,0.4),transparent);"></div>
+
+      <div class="reveal">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold text-white mb-6 relative z-10" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3)); box-shadow:0 0 0 6px var(--bg-0);">1</div>
+        <h3 class="text-white font-semibold text-[18px] mb-2.5">Add your devices</h3>
+        <p class="text-slate-400 text-[14px] leading-relaxed">Register your PS4s, PS5s, rooms, and any custom gaming stations, each with its own hourly rate.</p>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold text-white mb-6 relative z-10" style="background:linear-gradient(135deg,var(--purple-2),var(--cyan)); box-shadow:0 0 0 6px var(--bg-0);">2</div>
+        <h3 class="text-white font-semibold text-[18px] mb-2.5">Start managing sessions</h3>
+        <p class="text-slate-400 text-[14px] leading-relaxed">Start and stop sessions, manage bookings, and let pricing be calculated automatically.</p>
+      </div>
+      <div class="reveal" style="transition-delay:.2s">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold text-white mb-6 relative z-10" style="background:linear-gradient(135deg,var(--cyan-2),var(--purple-3)); box-shadow:0 0 0 6px var(--bg-0);">3</div>
+        <h3 class="text-white font-semibold text-[18px] mb-2.5">Grow your business</h3>
+        <p class="text-slate-400 text-[14px] leading-relaxed">Use analytics and reports to understand revenue, peak hours, and device performance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARISON ============ -->
+<section class="relative py-24 md:py-28">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-14 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Built for gaming cafes. Not generic businesses.</h2>
+      <p class="text-slate-400 text-[16px] leading-relaxed">General-purpose POS systems weren't designed around sessions, devices, and gamers.</p>
+    </div>
+
+    <div class="panel overflow-hidden reveal">
+      <div class="grid grid-cols-2">
+        <div class="p-5 md:p-6 border-r" style="border-color:var(--panel-line);">
+          <p class="text-slate-500 font-medium text-[13px] md:text-[14px]">Traditional management</p>
+        </div>
+        <div class="p-5 md:p-6">
+          <p class="font-semibold text-[13px] md:text-[14px] grad-text">PS Cafe Manager</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 table-row-line">
+        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Manual timing</div>
+        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Automatic timing</div>
+      </div>
+      <div class="grid grid-cols-2 table-row-line">
+        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Paper records</div>
+        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Digital records</div>
+      </div>
+      <div class="grid grid-cols-2 table-row-line">
+        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Manual calculations</div>
+        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Automatic billing</div>
+      </div>
+      <div class="grid grid-cols-2 table-row-line">
+        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Guessing revenue</div>
+        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Real-time analytics</div>
+      </div>
+      <div class="grid grid-cols-2 table-row-line">
+        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Messy bookings</div>
+        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Organized reservations</div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>No device overview</div>
+        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Complete device management</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENEFITS ============ -->
+<section class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(34,211,238,0.03),transparent);">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-14 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Why cafe owners switch.</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="panel panel-hover reveal p-6">
+        <i data-lucide="clock-4" class="w-6 h-6 text-violet-300 mb-4"></i>
+        <h3 class="text-white font-semibold text-[15.5px] mb-2">Save time</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Automate repetitive cafe management tasks.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.04s">
+        <i data-lucide="target" class="w-6 h-6 text-cyan-300 mb-4"></i>
+        <h3 class="text-white font-semibold text-[15.5px] mb-2">Reduce errors</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Eliminate manual timing and calculation mistakes.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.08s">
+        <i data-lucide="trending-up" class="w-6 h-6 text-violet-300 mb-4"></i>
+        <h3 class="text-white font-semibold text-[15.5px] mb-2">Increase revenue</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Understand your best-performing devices and hours.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.12s">
+        <i data-lucide="smile" class="w-6 h-6 text-cyan-300 mb-4"></i>
+        <h3 class="text-white font-semibold text-[15.5px] mb-2">Improve customer experience</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Faster bookings and smoother sessions.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.16s">
+        <i data-lucide="folder-check" class="w-6 h-6 text-violet-300 mb-4"></i>
+        <h3 class="text-white font-semibold text-[15.5px] mb-2">Stay organized</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Sessions, customers, bookings, and payments in one place.</p>
+      </div>
+      <div class="panel panel-hover reveal p-6" style="transition-delay:.2s">
+        <i data-lucide="brain" class="w-6 h-6 text-cyan-300 mb-4"></i>
+        <h3 class="text-white font-semibold text-[15.5px] mb-2">Make better decisions</h3>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed">Use real data instead of guessing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="relative py-24 md:py-28">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="max-w-2xl mb-14 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-3">What cafe owners say</h2>
+      <p class="text-slate-500 text-[13.5px]">Demo testimonials for illustration.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="panel reveal p-6">
+        <div class="flex gap-1 mb-4">
+          <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        </div>
+        <p class="text-slate-300 text-[14px] leading-relaxed mb-6">"PS Cafe Manager completely changed how we manage our sessions. Everything is faster and more organized now."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">AH</div>
+          <div><p class="text-white text-[13px] font-medium">Ahmed</p><p class="text-slate-500 text-[11.5px]">Gaming Cafe Owner</p></div>
+        </div>
+      </div>
+      <div class="panel reveal p-6" style="transition-delay:.05s">
+        <div class="flex gap-1 mb-4">
+          <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        </div>
+        <p class="text-slate-300 text-[14px] leading-relaxed mb-6">"Bookings used to be chaos on a whiteboard. Now conflicts just can't happen — the system catches them before staff do."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--cyan-2),var(--purple-3));">MN</div>
+          <div><p class="text-white text-[13px] font-medium">Mona</p><p class="text-slate-500 text-[11.5px]">PlayStation Lounge Owner</p></div>
+        </div>
+      </div>
+      <div class="panel reveal p-6" style="transition-delay:.1s">
+        <div class="flex gap-1 mb-4">
+          <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        </div>
+        <p class="text-slate-300 text-[14px] leading-relaxed mb-6">"The analytics finally told me which room was actually making money. I moved two PS4s into a VIP room and revenue jumped."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--cyan));">YK</div>
+          <div><p class="text-white text-[13px] font-medium">Youssef</p><p class="text-slate-500 text-[11.5px]">Multi-branch Cafe Owner</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOWNLOAD / CTA ============ -->
+<section id="download" class="relative py-28 md:py-36 overflow-hidden">
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] glow-purple pointer-events-none"></div>
+  <div class="relative max-w-3xl mx-auto px-5 md:px-8 text-center reveal">
+    <h2 class="text-[32px] md:text-[46px] font-extrabold text-white mb-5 leading-[1.08]">Ready to run your cafe smarter?</h2>
+    <p class="text-slate-400 text-[16px] md:text-[18px] mb-10 max-w-xl mx-auto">Take control of your PlayStation cafe with PS Cafe Manager.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+      <a href="#" class="btn-primary px-8 py-4 rounded-xl text-[15.5px] font-semibold text-white inline-flex items-center justify-center gap-2">
+        <i data-lucide="download" class="w-5 h-5"></i> Download PS Cafe Manager
+      </a>
+      <a href="#features" class="btn-ghost px-8 py-4 rounded-xl text-[15.5px] font-semibold text-slate-100">View Features</a>
+    </div>
+    <p class="text-[12.5px] text-slate-500">Windows desktop application · Free to get started</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="relative py-24 md:py-28">
+  <div class="max-w-3xl mx-auto px-5 md:px-8">
+    <div class="mb-12 reveal">
+      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Frequently asked questions</h2>
+    </div>
+
+    <div class="space-y-3 reveal" id="faqList">
+      <!-- items injected via JS-friendly markup below -->
+      <details class="accordion-item panel p-5" open>
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">What is PS Cafe Manager?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">A desktop application that helps PlayStation cafe owners manage sessions, bookings, devices, pricing, customers, and revenue from one place.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Who is PS Cafe Manager designed for?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Owners and staff of PlayStation and gaming cafes — from single-room setups to multi-branch operations.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Does it support PS4 and PS5?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — PS4, PS4 Room, PS5, and custom device types are all supported.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Can I create different prices for different devices?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — each device or device type can have its own hourly price, minimum charge, and special pricing.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Can I manage bookings?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — create, change, or cancel reservations, and overlapping bookings are prevented automatically.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Can I track revenue?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — view daily, weekly, and monthly revenue, plus a breakdown by device and device type.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Does it support Arabic?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — the full interface is available in English and Arabic, including right-to-left layout.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Can multiple staff members use the system?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — create staff accounts with Owner, Manager, or Staff roles and set specific permissions for each.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Can I export reports?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — generate daily, weekly, and monthly reports and export them to PDF or Excel/CSV.</p>
+      </details>
+      <details class="accordion-item panel p-5">
+        <summary class="flex items-center justify-between gap-4">
+          <span class="text-white font-medium text-[15px]">Is my data backed up?</span>
+          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
+        </summary>
+        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — PS Cafe Manager supports automatic backups, manual backups, and full data restore.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="relative py-24 md:py-28 border-t" style="border-color:rgba(148,163,184,0.08);">
+  <div class="max-w-4xl mx-auto px-5 md:px-8 text-center reveal">
+    <h2 class="text-[26px] md:text-[34px] font-extrabold text-white mb-4">Your cafe deserves better management.</h2>
+    <p class="text-slate-500 text-[14.5px] mb-8">Manage. Track. Analyze. Grow.</p>
+    <a href="#" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-semibold text-white">
+      <i data-lucide="download" class="w-[18px] h-[18px]"></i> Download PS Cafe Manager
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative pt-16 pb-8 border-t" style="border-color:rgba(148,163,184,0.08);">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+      <div class="lg:col-span-2">
+        <div class="flex items-center gap-2.5 mb-4">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">
+            <i data-lucide="gamepad-2" class="w-[18px] h-[18px] text-white"></i>
+          </div>
+          <span class="font-semibold text-[14px]" style="font-family:'Plus Jakarta Sans',sans-serif;">PS Cafe Manager</span>
+        </div>
+        <p class="text-slate-500 text-[13.5px] leading-relaxed max-w-xs">Professional PlayStation cafe management made simple.</p>
+      </div>
+      <div>
+        <p class="text-slate-300 font-medium text-[13px] mb-4">Navigation</p>
+        <div class="space-y-2.5 text-[13.5px] text-slate-500">
+          <a href="#home" class="block hover:text-slate-300 transition-colors">Home</a>
+          <a href="#features" class="block hover:text-slate-300 transition-colors">Features</a>
+          <a href="#how-it-works" class="block hover:text-slate-300 transition-colors">How It Works</a>
+          <a href="#analytics" class="block hover:text-slate-300 transition-colors">Analytics</a>
+          <a href="#faq" class="block hover:text-slate-300 transition-colors">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <p class="text-slate-300 font-medium text-[13px] mb-4">Product</p>
+        <div class="space-y-2.5 text-[13.5px] text-slate-500">
+          <a href="#download" class="block hover:text-slate-300 transition-colors">Download</a>
+          <a href="#" class="block hover:text-slate-300 transition-colors">Documentation</a>
+          <a href="#" class="block hover:text-slate-300 transition-colors">Updates</a>
+        </div>
+      </div>
+      <div>
+        <p class="text-slate-300 font-medium text-[13px] mb-4">Support</p>
+        <div class="space-y-2.5 text-[13.5px] text-slate-500">
+          <a href="#" class="block hover:text-slate-300 transition-colors">Contact</a>
+          <a href="#" class="block hover:text-slate-300 transition-colors">Help Center</a>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t" style="border-color:rgba(148,163,184,0.08);">
+      <p class="text-slate-600 text-[12.5px]">© 2026 PS Cafe Manager. All rights reserved.</p>
+      <div class="flex items-center gap-1 rounded-full p-0.5 text-[11.5px]" style="background:rgba(255,255,255,0.03); border:1px solid rgba(148,163,184,0.12);">
+        <span class="px-3 py-1 rounded-full text-white" style="background:rgba(124,58,237,0.4);">English</span>
+        <span class="px-3 py-1 rounded-full text-slate-500">العربية</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  try { lucide.createIcons(); } catch (e) { console.warn('Icons failed to load', e); }
+
+  // navbar glass on scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) navbar.classList.add('nav-glass');
+    else navbar.classList.remove('nav-glass');
+  });
+
+  // mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) { revealEls.forEach(el => el.classList.add('in')); }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // animated counters
+  const counters = document.querySelectorAll('.counter');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        let start = 0;
+        const duration = 1200;
+        const startTime = performance.now();
+        function tick(now){
+          const p = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.floor(eased * target).toLocaleString();
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(c => counterIO.observe(c));
+
+  // faq accordion — only one open at a time
+  const faqList = document.getElementById('faqList');
+  faqList.querySelectorAll('details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (d.open) {
+        faqList.querySelectorAll('details').forEach(other => {
+          if (other !== d) other.open = false;
+        });
+      }
+    });
+  });
+  setTimeout(() => revealEls.forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in'); }), 2500);
+</script>
+</body>
+</html>
