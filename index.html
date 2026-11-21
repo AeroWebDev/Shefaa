@@ -1,1096 +1,1688 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PS Cafe Manager — Run Your PlayStation Cafe Smarter</title>
-<meta name="description" content="PS Cafe Manager is a desktop app for gaming cafe owners to manage PlayStation sessions, bookings, pricing, devices, customers and revenue from one dashboard." />
-<meta property="og:title" content="PS Cafe Manager — Run Your PlayStation Cafe Smarter" />
-<meta property="og:description" content="Manage sessions, bookings, devices, pricing, customers and revenue — all from one powerful desktop application built for PlayStation cafes." />
-<meta property="og:type" content="website" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
-<style>
-  :root{
-    --bg-0:#05050F;
-    --bg-1:#080817;
-    --bg-2:#0B0A1D;
-    --panel:#0D0C20;
-    --panel-line:rgba(148,163,184,0.10);
-    --purple-1:#7C3AED;
-    --purple-2:#8B5CF6;
-    --purple-3:#6D28D9;
-    --cyan:#22D3EE;
-    --cyan-2:#06B6D4;
-    --ink-0:#F8FAFC;
-    --ink-1:#CBD5E1;
-    --ink-2:#94A3B8;
-    --green:#34D399;
-  }
-  *{ box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
-  body{
-    background:var(--bg-0);
-    color:var(--ink-0);
-    font-family:'Inter', ui-sans-serif, system-ui, sans-serif;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  h1,h2,h3,h4,.display{
-    font-family:'Plus Jakarta Sans', 'Inter', sans-serif;
-    letter-spacing:-0.02em;
-  }
-  ::selection{ background:rgba(124,58,237,0.35); color:#fff; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شفاء — نظام إدارة الصيدلية</title>
+  <meta name="description" content="شفاء هو نظام إدارة صيدلية متكامل يمكّنك من إدارة المخزون والمبيعات والعملاء والتقارير من مكان واحد." />
+  <meta name="keywords" content="نظام صيدلية, برنامج صيدلية, إدارة مخزون الدواء, شفاء" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  .bg-grid{
-    background-image:
-      linear-gradient(rgba(148,163,184,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(148,163,184,0.05) 1px, transparent 1px);
-    background-size:44px 44px;
-    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 45%, transparent 100%);
-  }
-  .glow-purple{
-    background:radial-gradient(closest-side, rgba(124,58,237,0.45), rgba(124,58,237,0) 70%);
-    filter:blur(10px);
-  }
-  .glow-cyan{
-    background:radial-gradient(closest-side, rgba(34,211,238,0.30), rgba(34,211,238,0) 70%);
-    filter:blur(10px);
-  }
-  .panel{
-    background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
-    background-color:var(--panel);
-    border:1px solid var(--panel-line);
-    border-radius:18px;
-  }
-  .panel-hover{ transition:border-color .35s ease, transform .35s ease, box-shadow .35s ease; }
-  .panel-hover:hover{
-    border-color:rgba(139,92,246,0.45);
-    transform:translateY(-3px);
-    box-shadow:0 20px 60px -20px rgba(124,58,237,0.35);
-  }
-  .grad-text{
-    background:linear-gradient(90deg,#C4B5FD 0%, #8B5CF6 45%, #22D3EE 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .btn-primary{
-    background:linear-gradient(135deg,var(--purple-2), var(--purple-3));
-    box-shadow:0 10px 30px -8px rgba(124,58,237,0.55), inset 0 1px 0 rgba(255,255,255,0.15);
-    transition:transform .25s ease, box-shadow .25s ease, filter .25s ease;
-  }
-  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 40px -8px rgba(124,58,237,0.7); filter:brightness(1.06); }
-  .btn-ghost{
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(148,163,184,0.18);
-    transition:all .25s ease;
-  }
-  .btn-ghost:hover{ background:rgba(255,255,255,0.06); border-color:rgba(203,213,225,0.35); }
+  <style>
+    :root {
+      --green: #22C55E;
+      --green-dark: #16A34A;
+      --green-light: #86EFAC;
+      --blue: #0F4C81;
+      --bg: #080D1A;
+      --bg2: #0C1222;
+      --card: #0F1826;
+      --card2: #131f30;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(34,197,94,0.15);
+      --text: #F1F5F9;
+      --muted: #8B9BB4;
+      --muted2: #6B7E99;
+    }
 
-  .nav-glass{
-    background:rgba(5,5,15,0.55);
-    backdrop-filter:blur(14px) saturate(140%);
-    -webkit-backdrop-filter:blur(14px) saturate(140%);
-    border-bottom:1px solid rgba(148,163,184,0.08);
-  }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-  .float-slow{ animation:floaty 7s ease-in-out infinite; }
-  .float-slow-delay{ animation:floaty 7s ease-in-out infinite; animation-delay:1.2s; }
-  .float-slower{ animation:floaty 9s ease-in-out infinite; animation-delay:2.4s; }
-  @keyframes floaty{
-    0%,100%{ transform:translateY(0px); }
-    50%{ transform:translateY(-12px); }
-  }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1); }
-  .reveal.in{ opacity:1; transform:translateY(0); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--green-dark); border-radius: 3px; }
 
-  .device-dot{ box-shadow:0 0 0 3px rgba(52,211,153,0.15); }
+    /* ======= NAVBAR ======= */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 68px;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8,13,26,0.9);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
 
-  .accordion-item[open] summary .chev{ transform:rotate(45deg); }
-  summary::-webkit-details-marker{ display:none; }
-  summary{ list-style:none; cursor:pointer; }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 900;
+      font-size: 21px;
+    }
 
-  .table-row-line{ border-bottom:1px solid rgba(148,163,184,0.08); }
+    .nav-logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 17px;
+      box-shadow: 0 4px 14px rgba(34,197,94,0.35);
+    }
 
-  .noise-card{ position:relative; }
-  .glow-border{
-    position:relative;
-    border-radius:18px;
-  }
-  .glow-border::before{
-    content:'';
-    position:absolute; inset:-1px;
-    border-radius:19px;
-    padding:1px;
-    background:linear-gradient(135deg, rgba(139,92,246,0.6), rgba(34,211,238,0.25), transparent 60%);
-    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite:xor; mask-composite:exclude;
-    pointer-events:none;
-  }
+    .nav-logo .brand { color: var(--green); }
 
-  @media (prefers-reduced-motion: reduce){
-    .float-slow,.float-slow-delay,.float-slower{ animation:none; }
-    .reveal{ transition:none; opacity:1; transform:none; }
-  }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
 
-  .scrollbar-hide::-webkit-scrollbar{ display:none; }
-  .scrollbar-hide{ -ms-overflow-style:none; scrollbar-width:none; }
-</style>
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--green) !important;
+      color: #000 !important;
+      padding: 9px 22px;
+      border-radius: 9px;
+      font-weight: 800 !important;
+      font-size: 13px !important;
+      transition: all 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: var(--green-light) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    /* ======= HERO ======= */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 130px 40px 80px;
+    }
+
+    /* Grid texture */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(34,197,94,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,197,94,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-glow-1 {
+      position: absolute;
+      top: -150px; right: -100px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(34,197,94,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -200px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(15,76,129,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 860px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 50px;
+      padding: 7px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 30px;
+      animation: fadeInDown 0.6s ease both;
+    }
+
+    .hero-eyebrow i { font-size: 11px; }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 1.18;
+      color: var(--text);
+      margin-bottom: 24px;
+      animation: fadeInUp 0.7s ease 0.1s both;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 20px;
+      line-height: 1.75;
+      animation: fadeInUp 0.7s ease 0.2s both;
+    }
+
+    /* Trust row */
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+      animation: fadeInUp 0.7s ease 0.25s both;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--muted2);
+    }
+
+    .trust-item i { color: var(--green); font-size: 12px; }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.7s ease 0.3s both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--green);
+      color: #000;
+      padding: 15px 34px;
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 6px 28px rgba(34,197,94,0.35);
+      transition: all 0.25s;
+    }
+    .btn-primary:hover {
+      background: var(--green-light);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(34,197,94,0.45);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      padding: 15px 34px;
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all 0.25s;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      margin-top: 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted2);
+      animation: fadeInUp 0.7s ease 0.5s both;
+    }
+
+    .scroll-hint i { animation: float 2s ease infinite; }
+
+    /* ======= STATS BAR ======= */
+    .stats-bar {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 40px;
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .stat-item h3 {
+      font-size: 34px;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1.1;
+    }
+
+    .stat-item p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .stat-divider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    /* ======= SECTIONS ======= */
+    .section { padding: 100px 40px; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.18);
+      color: var(--green);
+      padding: 5px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.25;
+    }
+
+    .section-subtitle {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ======= FEATURES ======= */
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 90px; height: 90px;
+      background: radial-gradient(circle at top right, rgba(34,197,94,0.07), transparent 70%);
+      pointer-events: none;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(34,197,94,0.25);
+      transform: translateY(-5px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+    }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 18px;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.15);
+      color: var(--green);
+    }
+
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .feature-tag {
+      background: rgba(34,197,94,0.07);
+      color: var(--green);
+      border: 1px solid rgba(34,197,94,0.12);
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* ======= APP PREVIEW ======= */
+    .preview-section {
+      padding: 80px 40px;
+      background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+      text-align: center;
+    }
+
+    .app-mockup {
+      max-width: 980px;
+      margin: 52px auto 0;
+      animation: float 7s ease infinite;
+    }
+
+    .mockup-window {
+      background: #0A1526;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.09);
+      overflow: hidden;
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(34,197,94,0.08);
+    }
+
+    .mockup-titlebar {
+      background: #111E32;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 7px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .mockup-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .mockup-dot.red    { background: #FF5F57; }
+    .mockup-dot.yellow { background: #FEBC2E; }
+    .mockup-dot.green  { background: #28C840; }
+
+    .mockup-title {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      color: #4B6180;
+    }
+
+    .mockup-body {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      height: 390px;
+    }
+
+    .mockup-sidebar {
+      background: #111E32;
+      border-left: 1px solid rgba(255,255,255,0.05);
+      padding: 14px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .mockup-nav-item {
+      padding: 9px 14px;
+      font-size: 11px;
+      color: #4B6180;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mockup-nav-item.active {
+      background: rgba(34,197,94,0.1);
+      color: #22C55E;
+      border-right: 3px solid #22C55E;
+    }
+
+    .mockup-nav-item i { width: 14px; text-align: center; }
+
+    .mockup-main {
+      background: #0A1526;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .mockup-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .mockup-stat {
+      background: #111E32;
+      border-radius: 9px;
+      padding: 13px;
+    }
+
+    .mockup-stat-num { font-size: 19px; font-weight: 800; color: #22C55E; }
+    .mockup-stat-label { font-size: 9px; color: #4B6180; margin-top: 4px; }
+
+    .mockup-chart {
+      background: #111E32;
+      border-radius: 9px;
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+      padding: 14px;
+      gap: 7px;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: linear-gradient(to top, #22C55E, #86EFAC);
+      border-radius: 3px 3px 0 0;
+      opacity: 0.75;
+    }
+
+    /* ======= PRICING ======= */
+    .pricing-section {
+      padding: 100px 40px;
+      background: var(--bg2);
+    }
+
+    .pricing-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .pricing-card.featured {
+      border: 2px solid var(--green);
+      background: linear-gradient(145deg, #0F1E14, var(--card));
+      box-shadow: 0 0 50px rgba(34,197,94,0.1);
+    }
+
+    .pricing-card.featured:hover {
+      box-shadow: 0 20px 60px rgba(34,197,94,0.2);
+    }
+
+    .plan-popular {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green);
+      color: #000;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    .plan-icon {
+      width: 54px; height: 54px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 20px;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.15);
+      color: var(--green);
+    }
+
+    .plan-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .plan-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .plan-contact {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--green);
+      margin: 16px 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .plan-contact i { font-size: 18px; }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .plan-features li i {
+      color: var(--green);
+      font-size: 13px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .plan-features li.dimmed {
+      color: var(--muted);
+    }
+
+    .plan-features li.dimmed i { color: var(--muted2); }
+
+    .plan-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 11px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.25s;
+      margin-top: auto;
+    }
+
+    .plan-btn.solid {
+      background: var(--green);
+      color: #000;
+      box-shadow: 0 4px 18px rgba(34,197,94,0.3);
+    }
+    .plan-btn.solid:hover {
+      background: var(--green-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(34,197,94,0.4);
+    }
+
+    .plan-btn.outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .plan-btn.outline:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    /* ======= CONTACT ======= */
+    .contact-section { padding: 100px 40px; }
+
+    .contact-grid {
+      max-width: 1100px;
+      margin: 52px auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .contact-info { display: flex; flex-direction: column; gap: 22px; }
+
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .contact-info-icon {
+      width: 46px; height: 46px;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.18);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+
+    .contact-info-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .contact-info-text p  { font-size: 13px; color: var(--muted); }
+    .contact-info-text a  { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .contact-info-text a:hover { color: var(--green); }
+
+    .contact-form {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 36px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 7px; }
+
+    .form-input {
+      width: 100%;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px 14px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      direction: rtl;
+      transition: all 0.2s;
+    }
+    .form-input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(34,197,94,0.08); }
+    textarea.form-input { resize: vertical; min-height: 115px; }
+
+    .form-submit {
+      width: 100%;
+      background: var(--green);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .form-submit:hover { background: var(--green-light); transform: translateY(-2px); }
+
+    .form-success {
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      color: var(--green);
+      font-weight: 700;
+      font-size: 15px;
+      display: none;
+    }
+
+    /* ======= FOOTER ======= */
+    footer {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 60px 40px 28px;
+    }
+
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-top: 14px;
+      max-width: 240px;
+    }
+
+    .footer-col h4 { font-size: 13px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+    .footer-col a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .footer-col a i { font-size: 11px; width: 14px; }
+    .footer-col a:hover { color: var(--green); }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted2);
+    }
+
+    .footer-bottom a {
+      color: var(--muted2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-bottom a:hover { color: var(--green); }
+
+    .footer-bottom-links { display: flex; gap: 20px; }
+
+    /* ======= CONTACT MODAL ======= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+      padding: 20px;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-box {
+      background: #0F1826;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 40px;
+      width: 100%;
+      max-width: 440px;
+      animation: slideUp 0.25s ease;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; left: 16px;
+      background: rgba(255,255,255,0.05);
+      border: none;
+      color: var(--muted);
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .modal-sub   { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+    .modal-contact-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+
+    .modal-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .modal-contact-item:hover { border-color: var(--border2); background: rgba(34,197,94,0.05); }
+
+    .modal-contact-item i {
+      font-size: 18px;
+      color: var(--green);
+      width: 22px;
+      text-align: center;
+    }
+
+    .modal-contact-item div strong { display: block; font-size: 14px; font-weight: 700; }
+    .modal-contact-item div span  { font-size: 12px; color: var(--muted); }
+
+    /* ======= LEGAL PAGES ======= */
+    .legal-page {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 500;
+      overflow-y: auto;
+      padding: 80px 40px 60px;
+    }
+
+    .legal-page.active { display: block; }
+
+    .legal-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .legal-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 36px;
+      background: none;
+      border: none;
+      font-family: 'Cairo', sans-serif;
+      transition: gap 0.2s;
+    }
+    .legal-back:hover { gap: 12px; }
+
+    .legal-inner h1 { font-size: 34px; font-weight: 900; margin-bottom: 8px; }
+    .legal-inner .legal-date { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
+
+    .legal-inner h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      margin: 32px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legal-inner h2 i { color: var(--green); font-size: 16px; }
+
+    .legal-inner p, .legal-inner li {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .legal-inner ul { padding-right: 20px; margin-top: 8px; }
+    .legal-inner ul li { margin-bottom: 6px; }
+    .legal-inner a { color: var(--green); }
+
+    /* ======= RESPONSIVE ======= */
+    @media (max-width: 1024px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
+      .footer-grid  { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .features-grid  { grid-template-columns: 1fr 1fr; }
+      .contact-grid   { grid-template-columns: 1fr; }
+      .stats-inner    { grid-template-columns: repeat(2, 1fr); }
+      .mockup-body    { grid-template-columns: 1fr; }
+      .mockup-sidebar { display: none; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 36px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .mockup-stats { grid-template-columns: repeat(2, 1fr); }
+      .features-grid { grid-template-columns: 1fr; }
+      .section { padding: 70px 24px; }
+      footer { padding: 50px 24px 24px; }
+      .contact-form { padding: 24px; }
+      .legal-page { padding: 70px 24px 50px; }
+    }
+
+    /* Scroll animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="antialiased">
+<body>
 
-<!-- ============ NAVBAR ============ -->
-<header id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="flex items-center justify-between h-[68px]">
-      <a href="#home" class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">
-          <i data-lucide="gamepad-2" class="w-5 h-5 text-white"></i>
-        </div>
-        <span class="font-semibold text-[15px] tracking-tight" style="font-family:'Plus Jakarta Sans',sans-serif;">PS Cafe <span class="text-slate-400 font-medium">Manager</span></span>
-      </a>
+  <!-- ======= NAVBAR ======= -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"><i class="fa-solid fa-capsules"></i></div>
+      <span class="brand">شفاء</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">المميزات</a></li>
+      <li><a href="#preview">معاينة</a></li>
+      <li><a href="#pricing">الباقات</a></li>
+      <li><a href="#contact">تواصل معنا</a></li>
+      <li><a href="#contact" class="nav-cta" onclick="openContactModal()">تواصل الآن</a></li>
+    </ul>
+  </nav>
 
-      <nav class="hidden lg:flex items-center gap-8 text-[14px] text-slate-300">
-        <a href="#home" class="hover:text-white transition-colors">Home</a>
-        <a href="#features" class="hover:text-white transition-colors">Features</a>
-        <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
-        <a href="#analytics" class="hover:text-white transition-colors">Analytics</a>
-        <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
-      </nav>
+  <!-- ======= HERO ======= -->
+  <section class="hero" id="home">
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-content">
 
-      <div class="hidden lg:flex items-center gap-3">
-        <div class="flex items-center rounded-full p-0.5 text-[12px]" style="background:rgba(255,255,255,0.04); border:1px solid rgba(148,163,184,0.14);">
-          <button class="px-3 py-1.5 rounded-full font-medium" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">EN</button>
-          <button class="px-3 py-1.5 rounded-full text-slate-400">العربية</button>
-        </div>
-        <a href="#showcase" class="btn-ghost px-4 py-2 rounded-full text-[14px] font-medium text-slate-200">View Demo</a>
-        <a href="#download" class="btn-primary px-4 py-2 rounded-full text-[14px] font-semibold text-white">Download Now</a>
+      <div class="hero-eyebrow">
+        <i class="fa-solid fa-circle-check"></i>
+        نظام إدارة صيدلية متكامل — مصمم للصيدليات العربية
       </div>
 
-      <button id="menuBtn" aria-label="Open menu" class="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg btn-ghost">
-        <i data-lucide="menu" class="w-5 h-5"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- mobile menu -->
-  <div id="mobileMenu" class="lg:hidden hidden nav-glass border-t border-white/5">
-    <div class="px-5 py-4 flex flex-col gap-1 text-[15px]">
-      <a href="#home" class="py-2.5 text-slate-200">Home</a>
-      <a href="#features" class="py-2.5 text-slate-200">Features</a>
-      <a href="#how-it-works" class="py-2.5 text-slate-200">How It Works</a>
-      <a href="#analytics" class="py-2.5 text-slate-200">Analytics</a>
-      <a href="#faq" class="py-2.5 text-slate-200">FAQ</a>
-      <div class="flex gap-3 mt-3">
-        <a href="#showcase" class="btn-ghost flex-1 text-center px-4 py-2.5 rounded-full text-[14px] font-medium">View Demo</a>
-        <a href="#download" class="btn-primary flex-1 text-center px-4 py-2.5 rounded-full text-[14px] font-semibold text-white">Download</a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- ============ HERO ============ -->
-<section id="home" class="relative pt-40 pb-24 md:pt-48 md:pb-32">
-  <div class="absolute inset-0 bg-grid"></div>
-  <div class="absolute -top-20 left-1/3 w-[520px] h-[520px] glow-purple pointer-events-none"></div>
-  <div class="absolute top-40 right-0 w-[380px] h-[380px] glow-cyan pointer-events-none"></div>
-
-  <div class="relative max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
-    <div class="reveal">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[12.5px] font-medium text-violet-200 mb-6" style="background:rgba(124,58,237,0.12); border:1px solid rgba(139,92,246,0.3);">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-violet-300"></i>
-        The smart way to manage your PS cafe
-      </div>
-
-      <h1 class="text-[38px] leading-[1.08] sm:text-[48px] sm:leading-[1.06] md:text-[56px] md:leading-[1.04] font-extrabold text-white mb-6">
-        Run your <span class="grad-text">PlayStation Cafe</span> smarter.
+      <h1>
+        أدِر صيدليتك بثقة مع<br/>
+        <span class="highlight">شفاء</span>
       </h1>
 
-      <p class="text-[16.5px] md:text-[18px] text-slate-400 leading-relaxed max-w-xl mb-9">
-        Manage sessions, bookings, devices, pricing, customers, and revenue — all from one powerful desktop application built specifically for gaming cafes.
+      <p class="hero-desc">
+        منصة متكاملة تجمع المخزون، المبيعات، العملاء، والتقارير في مكان واحد.
+        تعمل دون إنترنت وبواجهة عربية سلسة.
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-3.5 mb-7">
-        <a href="#download" class="btn-primary px-6 py-3.5 rounded-xl text-[15px] font-semibold text-white text-center flex items-center justify-center gap-2">
-          <i data-lucide="download" class="w-[18px] h-[18px]"></i>
-          Download PS Cafe Manager
+      <div class="hero-trust">
+        <div class="trust-item">
+          <i class="fa-solid fa-wifi-slash"></i>
+          <span>يعمل بدون إنترنت</span>
+        </div>
+        <div class="trust-item">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>بيانات محمية محلياً</span>
+        </div>
+        <div class="trust-item">
+          <i class="fa-solid fa-headset"></i>
+          <span>دعم فني مستمر</span>
+        </div>
+        <div class="trust-item">
+          <i class="fa-solid fa-rotate"></i>
+          <span>تحديثات منتظمة</span>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openContactModal()">
+          <i class="fa-solid fa-phone"></i>
+          تواصل معنا الآن
+        </button>
+        <a href="#features" class="btn-secondary">
+          <i class="fa-solid fa-layer-group"></i>
+          استعرض المميزات
         </a>
-        <a href="#features" class="btn-ghost px-6 py-3.5 rounded-xl text-[15px] font-semibold text-slate-100 text-center">
-          Explore Features
+      </div>
+
+      <div class="scroll-hint">
+        <span>اكتشف المزيد</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======= STATS BAR ======= -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <h3>+٥٠٠</h3>
+        <p>صيدلية تثق بشفاء</p>
+      </div>
+      <div class="stat-item reveal">
+        <h3>٩٩.٩٪</h3>
+        <p>استقرار في التشغيل</p>
+      </div>
+      <div class="stat-item reveal">
+        <h3>+٢م</h3>
+        <p>فاتورة معالجة</p>
+      </div>
+      <div class="stat-item reveal">
+        <h3>٢٤/٧</h3>
+        <p>دعم فني متاح</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= FEATURES ======= -->
+  <section class="section" id="features">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-star"></i> المميزات</div>
+      <h2 class="section-title">كل ما تحتاجه في مكان واحد</h2>
+      <p class="section-subtitle">شفاء يغطي كل جوانب إدارة الصيدلية بدقة واحترافية</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <h3>إدارة المخزون الذكية</h3>
+        <p>تتبع كميات الأدوية، تنبيهات النفاد التلقائية، تتبع تواريخ الانتهاء، وإدارة الدفعات.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">تنبيه النفاد</span>
+          <span class="feature-tag">تاريخ الانتهاء</span>
+          <span class="feature-tag">الدفعات</span>
+        </div>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-cash-register"></i></div>
+        <h3>نقطة بيع متكاملة</h3>
+        <p>واجهة POS سريعة مع دعم الباركود، الخصومات، مرتجع المبيعات، وطباعة الفواتير.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">باركود</span>
+          <span class="feature-tag">فواتير PDF</span>
+          <span class="feature-tag">مرتجعات</span>
+        </div>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+        <h3>إدارة العملاء</h3>
+        <p>سجل مشتريات كامل لكل عميل، برنامج نقاط ولاء، وتاريخ الطلبات والروشتات.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">نقاط الولاء</span>
+          <span class="feature-tag">سجل المشتريات</span>
+        </div>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+        <h3>تقارير وتحليلات</h3>
+        <p>تقارير يومية وشهرية وسنوية، أرباح وخسائر، أفضل المنتجات مبيعاً، ورسوم بيانية.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">رسوم بيانية</span>
+          <span class="feature-tag">تصدير Excel</span>
+          <span class="feature-tag">أرباح وخسائر</span>
+        </div>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-file-medical"></i></div>
+        <h3>إدارة الروشتات</h3>
+        <p>رفع وحفظ صور الروشتات، ربطها بالعميل والدواء، وأرشفة السجل الطبي كاملاً.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">رفع صور</span>
+          <span class="feature-tag">أرشفة</span>
+        </div>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+        <h3>أمان متقدم</h3>
+        <p>نظام صلاحيات RBAC، سجل العمليات الكامل، تشفير البيانات، ونسخ احتياطي تلقائي.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">RBAC</span>
+          <span class="feature-tag">تشفير</span>
+          <span class="feature-tag">نسخ احتياطي</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= APP PREVIEW ======= -->
+  <section class="preview-section" id="preview">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-desktop"></i> معاينة النظام</div>
+      <h2 class="section-title">تصميم عصري وسهل الاستخدام</h2>
+      <p class="section-subtitle">واجهة نظيفة بالعربية الكاملة تجعل إدارة الصيدلية سلسة</p>
+    </div>
+
+    <div class="app-mockup reveal">
+      <div class="mockup-window">
+        <div class="mockup-titlebar">
+          <div class="mockup-dot red"></div>
+          <div class="mockup-dot yellow"></div>
+          <div class="mockup-dot green"></div>
+          <div class="mockup-title">شفاء — نظام إدارة الصيدلية</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="mockup-nav-item active"><i class="fa-solid fa-gauge"></i> لوحة التحكم</div>
+            <div class="mockup-nav-item"><i class="fa-solid fa-boxes-stacked"></i> المخزون</div>
+            <div class="mockup-nav-item"><i class="fa-solid fa-cash-register"></i> نقطة البيع</div>
+            <div class="mockup-nav-item"><i class="fa-solid fa-users"></i> العملاء</div>
+            <div class="mockup-nav-item"><i class="fa-solid fa-file-medical"></i> الروشتات</div>
+            <div class="mockup-nav-item"><i class="fa-solid fa-chart-line"></i> التقارير</div>
+            <div class="mockup-nav-item"><i class="fa-solid fa-gear"></i> الإعدادات</div>
+          </div>
+          <div class="mockup-main">
+            <div class="mockup-stats">
+              <div class="mockup-stat">
+                <div class="mockup-stat-num">١٢٨٠</div>
+                <div class="mockup-stat-label">مبيعات اليوم (ج.م)</div>
+              </div>
+              <div class="mockup-stat">
+                <div class="mockup-stat-num">١٤</div>
+                <div class="mockup-stat-label">فاتورة اليوم</div>
+              </div>
+              <div class="mockup-stat">
+                <div class="mockup-stat-num">١٤٢</div>
+                <div class="mockup-stat-label">إجمالي المنتجات</div>
+              </div>
+              <div class="mockup-stat">
+                <div class="mockup-stat-num" style="color:#EF4444;">٤</div>
+                <div class="mockup-stat-label">قاربوا النفاد</div>
+              </div>
+            </div>
+            <div class="mockup-chart" id="animChart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= PRICING ======= -->
+  <section class="pricing-section" id="pricing">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-layer-group"></i> الباقات</div>
+      <h2 class="section-title">اختر الباقة المناسبة لصيدليتك</h2>
+      <p class="section-subtitle">ثلاث خيارات مرنة تناسب كل حجم وكل احتياج — تواصل معنا لمعرفة التفاصيل</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- Plan 1: Starter -->
+      <div class="pricing-card reveal">
+        <div class="plan-icon"><i class="fa-solid fa-seedling"></i></div>
+        <div class="plan-name">الباقة الأساسية</div>
+        <div class="plan-desc">مثالية للصيدليات الصغيرة التي تبدأ رحلتها الرقمية.</div>
+        <div class="plan-contact">
+          <i class="fa-solid fa-comments"></i>
+          تواصل للاستفسار
+        </div>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> إدارة المخزون الكاملة</li>
+          <li><i class="fa-solid fa-check"></i> نقطة بيع مع باركود</li>
+          <li><i class="fa-solid fa-check"></i> ترخيص لجهاز واحد</li>
+          <li><i class="fa-solid fa-check"></i> تقارير أساسية</li>
+          <li><i class="fa-solid fa-check"></i> يعمل بدون إنترنت</li>
+          <li class="dimmed"><i class="fa-solid fa-xmark"></i> إدارة عملاء متقدمة</li>
+          <li class="dimmed"><i class="fa-solid fa-xmark"></i> دعم متعدد المستخدمين</li>
+        </ul>
+        <button class="plan-btn outline" onclick="openContactModal()">
+          <i class="fa-solid fa-phone"></i>
+          استفسر الآن
+        </button>
+      </div>
+
+      <!-- Plan 2: Pro (Featured) -->
+      <div class="pricing-card featured reveal">
+        <div class="plan-popular">الأكثر طلباً</div>
+        <div style="margin-top: 30px;"></div>
+        <div class="plan-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="plan-name">الباقة الاحترافية</div>
+        <div class="plan-desc">الخيار الأمثل لأغلب الصيدليات — ميزات متكاملة وأداء عالي.</div>
+        <div class="plan-contact">
+          <i class="fa-solid fa-comments"></i>
+          تواصل للاستفسار
+        </div>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> كل ميزات الباقة الأساسية</li>
+          <li><i class="fa-solid fa-check"></i> إدارة عملاء ونقاط ولاء</li>
+          <li><i class="fa-solid fa-check"></i> إدارة الروشتات والمرفقات</li>
+          <li><i class="fa-solid fa-check"></i> تقارير وتحليلات متقدمة</li>
+          <li><i class="fa-solid fa-check"></i> دعم حتى ٣ مستخدمين</li>
+          <li><i class="fa-solid fa-check"></i> تصدير Excel وPDF</li>
+          <li><i class="fa-solid fa-check"></i> دعم فني على واتساب</li>
+        </ul>
+        <button class="plan-btn solid" onclick="openContactModal()">
+          <i class="fa-solid fa-phone"></i>
+          تواصل معنا
+        </button>
+      </div>
+
+      <!-- Plan 3: Enterprise -->
+      <div class="pricing-card reveal">
+        <div class="plan-icon"><i class="fa-solid fa-building"></i></div>
+        <div class="plan-name">باقة الشبكات</div>
+        <div class="plan-desc">لسلاسل الصيدليات والمنشآت الصحية الكبيرة التي تحتاج تكاملاً شاملاً.</div>
+        <div class="plan-contact">
+          <i class="fa-solid fa-comments"></i>
+          تواصل للاستفسار
+        </div>
+        <ul class="plan-features">
+          <li><i class="fa-solid fa-check"></i> كل ميزات الباقة الاحترافية</li>
+          <li><i class="fa-solid fa-check"></i> مستخدمون غير محدودين</li>
+          <li><i class="fa-solid fa-check"></i> إدارة فروع متعددة</li>
+          <li><i class="fa-solid fa-check"></i> لوحة تحكم مركزية</li>
+          <li><i class="fa-solid fa-check"></i> تخصيص كامل للنظام</li>
+          <li><i class="fa-solid fa-check"></i> دعم فني مخصص</li>
+          <li><i class="fa-solid fa-check"></i> تدريب الفريق</li>
+        </ul>
+        <button class="plan-btn outline" onclick="openContactModal()">
+          <i class="fa-solid fa-phone"></i>
+          تواصل معنا
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======= CONTACT ======= -->
+  <section class="contact-section" id="contact">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-envelope"></i> تواصل معنا</div>
+      <h2 class="section-title">نحن هنا لمساعدتك</h2>
+      <p class="section-subtitle">فريقنا متاح للإجابة على جميع استفساراتك وتوفير الدعم اللازم</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-info-item reveal">
+          <div class="contact-info-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="contact-info-text">
+            <h4>واتساب / هاتف</h4>
+            <p dir="ltr"><a href="tel:+201108710742">+20 110 871 0742</a></p>
+          </div>
+        </div>
+        <div class="contact-info-item reveal">
+          <div class="contact-info-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="contact-info-text">
+            <h4>البريد الإلكتروني</h4>
+            <p><a href="mailto:aeroteam.agency@gmail.com">aeroteam.agency@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-info-item reveal">
+          <div class="contact-info-icon"><i class="fa-solid fa-clock"></i></div>
+          <div class="contact-info-text">
+            <h4>ساعات العمل</h4>
+            <p>الأحد – الخميس &nbsp;·&nbsp; ٩ص – ٦م</p>
+          </div>
+        </div>
+        <div class="contact-info-item reveal">
+          <div class="contact-info-icon"><i class="fa-solid fa-headset"></i></div>
+          <div class="contact-info-text">
+            <h4>دعم فني</h4>
+            <p>متاح عبر واتساب خلال أيام وساعات العمل</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal">
+        <h3 style="font-size:19px;font-weight:800;margin-bottom:22px;">أرسل لنا رسالة</h3>
+        <div id="formSuccess" class="form-success">
+          <i class="fa-solid fa-circle-check" style="font-size:28px;margin-bottom:10px;display:block;"></i>
+          تم إرسال رسالتك بنجاح! سنرد عليك في أقرب وقت.
+        </div>
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-group">
+            <label class="form-label">الاسم الكامل</label>
+            <input type="text" class="form-input" placeholder="اسمك الكامل" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">رقم الهاتف أو البريد الإلكتروني</label>
+            <input type="text" class="form-input" placeholder="email@example.com أو 01XXXXXXXXX" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">موضوع الرسالة</label>
+            <select class="form-input">
+              <option>استفسار عن النظام</option>
+              <option>طلب عرض سعر</option>
+              <option>دعم فني</option>
+              <option>اقتراح أو ملاحظة</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">الرسالة</label>
+            <textarea class="form-input" placeholder="اكتب رسالتك هنا..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <i class="fa-solid fa-paper-plane"></i>
+            إرسال الرسالة
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="text-decoration:none;">
+          <div class="nav-logo-icon" style="width:34px;height:34px;font-size:15px;"><i class="fa-solid fa-capsules"></i></div>
+          <span style="font-size:19px;font-weight:900;color:var(--text);">شفاء</span>
+        </a>
+        <p>نظام إدارة صيدلية متكامل مصمم للصيدليات العربية. سريع، آمن، وسهل الاستخدام.</p>
+      </div>
+      <div class="footer-col">
+        <h4>روابط سريعة</h4>
+        <a href="#features"><i class="fa-solid fa-star"></i> المميزات</a>
+        <a href="#preview"><i class="fa-solid fa-desktop"></i> معاينة النظام</a>
+        <a href="#pricing"><i class="fa-solid fa-layer-group"></i> الباقات</a>
+        <a href="#contact"><i class="fa-solid fa-envelope"></i> تواصل معنا</a>
+      </div>
+      <div class="footer-col">
+        <h4>قانوني</h4>
+        <a href="#" onclick="showLegal('privacy'); return false;"><i class="fa-solid fa-shield-halved"></i> سياسة الخصوصية</a>
+        <a href="#" onclick="showLegal('terms'); return false;"><i class="fa-solid fa-file-contract"></i> الشروط والأحكام</a>
+      </div>
+      <div class="footer-col">
+        <h4>التواصل</h4>
+        <a href="https://wa.me/201108710742" target="_blank"><i class="fa-brands fa-whatsapp"></i> واتساب</a>
+        <a href="mailto:aeroteam.agency@gmail.com"><i class="fa-solid fa-envelope"></i> البريد الإلكتروني</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 شفاء — جميع الحقوق محفوظة</span>
+      <div class="footer-bottom-links">
+        <a href="#" onclick="showLegal('privacy'); return false;">سياسة الخصوصية</a>
+        <a href="#" onclick="showLegal('terms'); return false;">الشروط والأحكام</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======= CONTACT MODAL ======= -->
+  <div id="contactModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeContactModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeContactModal()"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-title">تواصل مع فريق شفاء</div>
+      <div class="modal-sub">نحن هنا للإجابة على جميع استفساراتك</div>
+
+      <div class="modal-contact-list">
+        <a href="https://wa.me/201108710742" target="_blank" class="modal-contact-item">
+          <i class="fa-brands fa-whatsapp"></i>
+          <div>
+            <strong>واتساب</strong>
+            <span dir="ltr">+20 110 871 0742</span>
+          </div>
+        </a>
+        <a href="tel:+201108710742" class="modal-contact-item">
+          <i class="fa-solid fa-phone"></i>
+          <div>
+            <strong>اتصال مباشر</strong>
+            <span dir="ltr">+20 110 871 0742</span>
+          </div>
+        </a>
+        <a href="mailto:aeroteam.agency@gmail.com" class="modal-contact-item">
+          <i class="fa-solid fa-envelope"></i>
+          <div>
+            <strong>البريد الإلكتروني</strong>
+            <span>aeroteam.agency@gmail.com</span>
+          </div>
         </a>
       </div>
 
-      <div class="flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] text-slate-400 mb-8">
-        <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>Fast setup</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>Easy to use</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>Real-time session management</span>
-      </div>
-
-      <p class="text-[13px] text-slate-500">Built for modern gaming cafes</p>
-    </div>
-
-    <!-- Hero mockup -->
-    <div class="relative reveal" style="transition-delay:.15s">
-      <div class="absolute inset-8 glow-purple opacity-70"></div>
-      <div class="relative rounded-[22px] p-2.5" style="background:linear-gradient(150deg,#1c1730,#0a0a18); border:1px solid rgba(148,163,184,0.14); box-shadow:0 40px 90px -30px rgba(0,0,0,0.7);">
-        <div class="flex items-center gap-1.5 px-2.5 py-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-          <span class="ml-3 text-[11px] text-slate-500">PS Cafe — PS Cafe Manager</span>
-        </div>
-        <div class="rounded-2xl overflow-hidden" style="background:var(--bg-0); border:1px solid rgba(148,163,184,0.08);">
-          <div class="p-5">
-            <div class="flex items-center justify-between mb-5">
-              <div>
-                <p class="text-white font-bold text-[17px]" style="font-family:'Plus Jakarta Sans',sans-serif;">Dashboard</p>
-                <p class="text-[11.5px] text-slate-500 mt-0.5">3 Active · 2 Available</p>
-              </div>
-              <div class="text-[11px] px-2.5 py-1 rounded-lg text-emerald-300" style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2);">Live</div>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <div class="flex items-center justify-between mb-2.5">
-                  <span class="text-[12.5px] font-semibold text-white">PS5 #1</span>
-                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
-                </div>
-                <p class="text-[10.5px] text-slate-500 mb-1">2:14:08 elapsed</p>
-                <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(148,163,184,0.1);">
-                  <div class="h-full rounded-full" style="width:70%; background:linear-gradient(90deg,var(--purple-2),var(--cyan));"></div>
-                </div>
-              </div>
-              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <div class="flex items-center justify-between mb-2.5">
-                  <span class="text-[12.5px] font-semibold text-white">PS4 Room</span>
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                </div>
-                <p class="text-[10.5px] text-emerald-400 mb-1">Available</p>
-                <div class="h-1.5 rounded-full overflow-hidden" style="background:rgba(148,163,184,0.1);">
-                  <div class="h-full rounded-full w-0" style="background:var(--cyan);"></div>
-                </div>
-              </div>
-              <div class="rounded-xl p-3.5 col-span-2" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-[10.5px] text-slate-500 mb-1">Today's revenue</p>
-                    <p class="text-[19px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">4,850 EGP</p>
-                  </div>
-                  <i data-lucide="trending-up" class="w-6 h-6 text-cyan-400"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- floating cards -->
-      <div class="hidden md:block absolute -left-10 top-16 float-slow">
-        <div class="glow-border panel px-4 py-3 flex items-center gap-3">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(139,92,246,0.15);"><i data-lucide="zap" class="w-4 h-4 text-violet-300"></i></div>
-          <div>
-            <p class="text-[13px] font-semibold text-white leading-none mb-1">12 Active Sessions</p>
-            <p class="text-[11px] text-slate-500 leading-none">Across all devices</p>
-          </div>
-        </div>
-      </div>
-      <div class="hidden md:block absolute -right-8 bottom-24 float-slow-delay">
-        <div class="glow-border panel px-4 py-3 flex items-center gap-3">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,211,238,0.15);"><i data-lucide="calendar-clock" class="w-4 h-4 text-cyan-300"></i></div>
-          <div>
-            <p class="text-[13px] font-semibold text-white leading-none mb-1">3 Upcoming Bookings</p>
-            <p class="text-[11px] text-slate-500 leading-none">Next in 45 minutes</p>
-          </div>
-        </div>
+      <div style="font-size:12px;color:var(--muted2);text-align:center;line-height:1.6;">
+        <i class="fa-solid fa-clock" style="color:var(--green);margin-left:5px;"></i>
+        الأحد – الخميس &nbsp;·&nbsp; ٩ص – ٦م &nbsp;|&nbsp; نرد في أقل من ساعة
       </div>
     </div>
   </div>
-</section>
 
-<!-- ============ PROBLEM ============ -->
-<section class="relative py-24 md:py-28">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-2xl mb-14 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Stop managing your cafe manually.</h2>
-      <p class="text-slate-400 text-[16px] leading-relaxed">Spreadsheets, notebooks, and timers weren't built for a busy gaming floor. Small mistakes cost real revenue.</p>
-    </div>
+  <!-- ======= PRIVACY POLICY PAGE ======= -->
+  <div id="privacyPage" class="legal-page">
+    <div class="legal-inner">
+      <button class="legal-back" onclick="hideLegal()">
+        <i class="fa-solid fa-arrow-right"></i>
+        العودة إلى الصفحة الرئيسية
+      </button>
+      <h1>سياسة الخصوصية</h1>
+      <div class="legal-date">آخر تحديث: نوفمبر ٢٠٢٦</div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="panel panel-hover reveal p-6">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.12);"><i data-lucide="timer" class="w-5 h-5 text-violet-300"></i></div>
-        <h3 class="text-white font-semibold text-[16px] mb-2">Manual session tracking</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Stop calculating session times manually or relying on paper.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.05s">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.12);"><i data-lucide="calendar-x" class="w-5 h-5 text-cyan-300"></i></div>
-        <h3 class="text-white font-semibold text-[16px] mb-2">Confusing bookings</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Keep track of reservations and avoid scheduling conflicts.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.1s">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.12);"><i data-lucide="eye-off" class="w-5 h-5 text-violet-300"></i></div>
-        <h3 class="text-white font-semibold text-[16px] mb-2">Revenue blind spots</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Know exactly how much your cafe is earning, every day.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.15s">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.12);"><i data-lucide="monitor-cog" class="w-5 h-5 text-cyan-300"></i></div>
-        <h3 class="text-white font-semibold text-[16px] mb-2">Device management</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Monitor all PlayStation stations from one place.</p>
-      </div>
-    </div>
-  </div>
-</section>
+      <h2><i class="fa-solid fa-info-circle"></i> مقدمة</h2>
+      <p>تلتزم شركة شفاء بحماية خصوصية مستخدميها. توضح هذه السياسة كيفية جمع المعلومات واستخدامها وحمايتها عند استخدامك لنظام شفاء لإدارة الصيدليات.</p>
 
-<!-- ============ FEATURES ============ -->
-<section id="features" class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(124,58,237,0.03),transparent);">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-2xl mb-14 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Everything your PS cafe needs.</h2>
-      <p class="text-slate-400 text-[16px] leading-relaxed">Powerful tools designed specifically for gaming cafe owners — not a generic point-of-sale.</p>
-    </div>
+      <h2><i class="fa-solid fa-database"></i> البيانات التي نجمعها</h2>
+      <p>عند التواصل معنا أو استخدام نظامنا، قد نجمع:</p>
+      <ul>
+        <li>الاسم الكامل ورقم الهاتف والبريد الإلكتروني.</li>
+        <li>اسم الصيدلية وبيانات التواصل.</li>
+        <li>معلومات تقنية كنوع الجهاز ونظام التشغيل (لأغراض الدعم الفني).</li>
+      </ul>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-      <!-- Feature 1 -->
-      <div class="panel panel-hover reveal p-7 lg:col-span-2">
-        <div class="flex items-start justify-between mb-5">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background:rgba(124,58,237,0.15);"><i data-lucide="play-circle" class="w-5 h-5 text-violet-300"></i></div>
-        </div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Real-time session management</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mb-4">Start, pause, and stop sessions instantly. Track elapsed and remaining time, and let pricing calculate itself.</p>
-        <div class="flex flex-wrap gap-2">
-          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Auto cost calculation</span>
-          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Minimum charges</span>
-          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Live session view</span>
-        </div>
-      </div>
-      <!-- Feature 2 -->
-      <div class="panel panel-hover reveal p-7">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="tv" class="w-5 h-5 text-cyan-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Device management</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">PS4, PS4 Room, PS5, and custom device types — each with its own price, status, and current customer.</p>
-      </div>
-      <!-- Feature 3 -->
-      <div class="panel panel-hover reveal p-7">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="calendar-check-2" class="w-5 h-5 text-violet-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Smart booking system</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Create reservations by device, date, and duration. Overlapping bookings are prevented automatically.</p>
-      </div>
-      <!-- Feature 4 -->
-      <div class="panel panel-hover reveal p-7">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="tags" class="w-5 h-5 text-cyan-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Flexible pricing</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Hourly rates, minimum charges, VIP rooms, discounts, and peak-hour pricing for every device type.</p>
-      </div>
-      <!-- Feature 5 -->
-      <div class="panel panel-hover reveal p-7 lg:col-span-2">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="bar-chart-3" class="w-5 h-5 text-violet-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Revenue & analytics</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mb-4">Daily, weekly, and monthly revenue, average session duration, and which devices earn the most.</p>
-        <div class="flex flex-wrap gap-2">
-          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Revenue by device</span>
-          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Peak hours</span>
-          <span class="text-[11.5px] px-2.5 py-1 rounded-full text-slate-300" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">Customer activity</span>
-        </div>
-      </div>
-      <!-- Feature 6 -->
-      <div class="panel panel-hover reveal p-7">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="users" class="w-5 h-5 text-cyan-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Customer management</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Profiles with total spending, favorite device, last visit, and loyalty history.</p>
-      </div>
-      <!-- Feature 7 -->
-      <div class="panel panel-hover reveal p-7">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="layout-dashboard" class="w-5 h-5 text-violet-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Smart dashboard</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Active sessions, available devices, today's revenue, and upcoming bookings at a glance.</p>
-      </div>
-      <!-- Feature 8 -->
-      <div class="panel panel-hover reveal p-7">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(34,211,238,0.15);"><i data-lucide="scroll-text" class="w-5 h-5 text-cyan-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Activity logs</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Every session, booking, price change, and payment recorded automatically.</p>
-      </div>
-      <!-- Feature 9 -->
-      <div class="panel panel-hover reveal p-7">
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-5" style="background:rgba(124,58,237,0.15);"><i data-lucide="languages" class="w-5 h-5 text-violet-300"></i></div>
-        <h3 class="text-white font-semibold text-[17px] mb-2">Multi-language</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Full English and Arabic support, including right-to-left layout.</p>
-      </div>
-      <!-- Feature 10 -->
-      <div class="panel panel-hover reveal p-7 lg:col-span-3">
-        <div class="grid sm:grid-cols-[auto,1fr] gap-6 items-center">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background:rgba(34,211,238,0.15);"><i data-lucide="file-down" class="w-5 h-5 text-cyan-300"></i></div>
-          <div>
-            <h3 class="text-white font-semibold text-[17px] mb-1.5">Reports, ready to export</h3>
-            <p class="text-slate-400 text-[13.5px] leading-relaxed">Daily, weekly, and monthly reports on revenue, device performance, and sessions — exportable to PDF or Excel/CSV.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      <h2><i class="fa-solid fa-server"></i> تخزين البيانات</h2>
+      <p>نظام شفاء يعمل <strong>محلياً على جهازك</strong> دون رفع أي بيانات طبية أو بيانات العملاء إلى الإنترنت. تبقى جميع بيانات الصيدلية مخزنة على قاعدة بيانات محلية آمنة على جهازك.</p>
 
-    <!-- premium features strip -->
-    <div class="mt-14 reveal">
-      <p class="text-[13px] uppercase tracking-wide text-slate-500 mb-5">Also included</p>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="users-round" class="w-5 h-5 text-violet-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Customer queue</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">Wait-list customers when every device is busy.</p>
-        </div>
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="bell-ring" class="w-5 h-5 text-cyan-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Notifications & alerts</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">"Session ends in 5 minutes." Never miss a beat.</p>
-        </div>
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="percent" class="w-5 h-5 text-violet-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Discounts & promotions</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">Happy hour, student rates, long-session pricing.</p>
-        </div>
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="shield-check" class="w-5 h-5 text-cyan-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Staff accounts</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">Owner, manager, and staff roles with permissions.</p>
-        </div>
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="building-2" class="w-5 h-5 text-violet-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Multi-branch ready</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">Branch-specific devices, revenue, and analytics.</p>
-        </div>
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="database-backup" class="w-5 h-5 text-cyan-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Backup & restore</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">Automatic backups and one-click data export.</p>
-        </div>
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="alarm-clock" class="w-5 h-5 text-violet-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Session alerts</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">Heads-up before sessions or bookings end or start.</p>
-        </div>
-        <div class="rounded-2xl p-5" style="background:var(--panel); border:1px solid var(--panel-line);">
-          <i data-lucide="monitor-smartphone" class="w-5 h-5 text-cyan-300 mb-3"></i>
-          <p class="text-white font-medium text-[14.5px] mb-1">Command center</p>
-          <p class="text-slate-500 text-[12.5px] leading-relaxed">See your entire cafe at a glance, from one screen.</p>
-        </div>
-      </div>
-    </div>
+      <h2><i class="fa-solid fa-share-nodes"></i> مشاركة البيانات</h2>
+      <p>لا نبيع أي بيانات خاصة بك أو بعملائك لأطراف ثالثة. لا نشارك معلوماتك إلا في الحالات التالية:</p>
+      <ul>
+        <li>بموافقتك الصريحة.</li>
+        <li>عند الالتزام بالمتطلبات القانونية المعمول بها.</li>
+      </ul>
 
-    <div class="mt-14 flex justify-center reveal">
-      <a href="#download" class="btn-primary px-7 py-3.5 rounded-xl text-[15px] font-semibold text-white inline-flex items-center gap-2">
-        <i data-lucide="download" class="w-[18px] h-[18px]"></i> Download PS Cafe Manager
-      </a>
+      <h2><i class="fa-solid fa-lock"></i> الأمان</h2>
+      <p>نطبق أفضل الممارسات الأمنية لحماية بياناتك، بما في ذلك تشفير قاعدة البيانات المحلية وسجلات العمليات والنسخ الاحتياطي.</p>
+
+      <h2><i class="fa-solid fa-envelope"></i> التواصل بشأن الخصوصية</h2>
+      <p>لأي استفسار يتعلق بخصوصيتك، تواصل معنا عبر:<br/>
+      البريد الإلكتروني: <a href="mailto:aeroteam.agency@gmail.com">aeroteam.agency@gmail.com</a><br/>
+      الهاتف: <a href="tel:+201108710742" dir="ltr">+20 110 871 0742</a></p>
     </div>
   </div>
-</section>
 
-<!-- ============ PRODUCT SHOWCASE ============ -->
-<section id="showcase" class="relative py-24 md:py-28">
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] glow-purple opacity-40 pointer-events-none"></div>
-  <div class="relative max-w-7xl mx-auto px-5 md:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-16 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Your entire cafe. One dashboard.</h2>
-      <p class="text-slate-400 text-[16px] leading-relaxed">Sessions, devices, bookings, pricing, and analytics — all in a single, focused view.</p>
-    </div>
+  <!-- ======= TERMS PAGE ======= -->
+  <div id="termsPage" class="legal-page">
+    <div class="legal-inner">
+      <button class="legal-back" onclick="hideLegal()">
+        <i class="fa-solid fa-arrow-right"></i>
+        العودة إلى الصفحة الرئيسية
+      </button>
+      <h1>الشروط والأحكام</h1>
+      <div class="legal-date">آخر تحديث: نوفمبر ٢٠٢٦</div>
 
-    <div class="relative reveal">
-      <div class="relative mx-auto max-w-4xl rounded-[24px] p-3" style="background:linear-gradient(150deg,#1c1730,#0a0a18); border:1px solid rgba(148,163,184,0.14); box-shadow:0 50px 100px -30px rgba(0,0,0,0.75);">
-        <div class="flex items-center gap-1.5 px-3 py-2.5">
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-          <span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span>
-        </div>
-        <div class="rounded-2xl overflow-hidden grid md:grid-cols-[180px,1fr]" style="background:var(--bg-0); border:1px solid rgba(148,163,184,0.08);">
-          <div class="hidden md:block p-5 border-r" style="border-color:rgba(148,163,184,0.08);">
-            <div class="flex items-center gap-2 mb-8">
-              <div class="w-7 h-7 rounded-lg" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));"></div>
-              <span class="text-[13px] font-semibold text-white">PS Cafe</span>
-            </div>
-            <div class="space-y-1">
-              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] font-medium text-white" style="background:rgba(124,58,237,0.15);"><i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-violet-300"></i>Dashboard</div>
-              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] text-slate-500"><i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>Logs</div>
-              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] text-slate-500"><i data-lucide="bar-chart-3" class="w-3.5 h-3.5"></i>Analytics</div>
-              <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-[12.5px] text-slate-500"><i data-lucide="settings" class="w-3.5 h-3.5"></i>Settings</div>
-            </div>
-          </div>
-          <div class="p-5 md:p-7">
-            <div class="flex items-center justify-between mb-6">
-              <div>
-                <p class="text-white font-bold text-[18px]" style="font-family:'Plus Jakarta Sans',sans-serif;">Dashboard</p>
-                <p class="text-[12px] text-slate-500 mt-0.5">3 Active · 2 Available</p>
-              </div>
-              <div class="text-[11.5px] px-3 py-1.5 rounded-lg font-medium text-white" style="background:rgba(124,58,237,0.5);">End Day</div>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <div class="flex items-center justify-between mb-2"><span class="text-[12.5px] font-semibold text-white">PS5 #1</span><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span></div>
-                <p class="text-[10.5px] text-slate-500">60 EGP / hr · In use</p>
-              </div>
-              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <div class="flex items-center justify-between mb-2"><span class="text-[12.5px] font-semibold text-white">PS5 #2</span><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span></div>
-                <p class="text-[10.5px] text-emerald-400">Available</p>
-              </div>
-              <div class="rounded-xl p-3.5" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <div class="flex items-center justify-between mb-2"><span class="text-[12.5px] font-semibold text-white">PS4 Room</span><span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span></div>
-                <p class="text-[10.5px] text-slate-500">80 EGP / hr · In use</p>
-              </div>
-            </div>
-            <div class="grid grid-cols-2 gap-3 mt-3">
-              <div class="rounded-xl p-4" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <p class="text-[10.5px] text-slate-500 mb-1">Today's revenue</p>
-                <p class="text-[20px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">4,850 <span class="text-[12px] text-slate-500 font-medium">EGP</span></p>
-              </div>
-              <div class="rounded-xl p-4" style="background:var(--panel); border:1px solid var(--panel-line);">
-                <p class="text-[10.5px] text-slate-500 mb-1">Sessions today</p>
-                <p class="text-[20px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">27</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <h2><i class="fa-solid fa-handshake"></i> قبول الشروط</h2>
+      <p>باستخدامك لنظام شفاء فإنك توافق على الالتزام بهذه الشروط والأحكام. يرجى قراءتها بعناية قبل استخدام النظام.</p>
 
-      <div class="hidden lg:block absolute -left-6 top-10 float-slow">
-        <div class="glow-border panel px-4 py-3">
-          <p class="text-[12px] text-slate-500 mb-0.5">Available devices</p>
-          <p class="text-[15px] font-semibold text-white">8 of 12</p>
-        </div>
-      </div>
-      <div class="hidden lg:block absolute -right-6 top-40 float-slow-delay">
-        <div class="glow-border panel px-4 py-3">
-          <p class="text-[12px] text-slate-500 mb-0.5">Today's revenue</p>
-          <p class="text-[15px] font-semibold text-white">4,850 EGP</p>
-        </div>
-      </div>
-      <div class="hidden lg:block absolute -left-4 bottom-4 float-slower">
-        <div class="glow-border panel px-4 py-3">
-          <p class="text-[12px] text-slate-500 mb-0.5">Upcoming bookings</p>
-          <p class="text-[15px] font-semibold text-white">3 today</p>
-        </div>
-      </div>
+      <h2><i class="fa-solid fa-id-badge"></i> حقوق الترخيص</h2>
+      <p>عند الحصول على ترخيص نظام شفاء، تحصل على حق استخدام شخصي غير قابل للتحويل لتشغيل النظام على الأجهزة المحددة في الباقة المُختارة. يُحظر:</p>
+      <ul>
+        <li>إعادة بيع النظام أو ترخيصه لأطراف أخرى.</li>
+        <li>نسخ أو تعديل أو عكس هندسة كود البرنامج.</li>
+        <li>استخدام النظام لأغراض غير مشروعة.</li>
+      </ul>
+
+      <h2><i class="fa-solid fa-rotate"></i> التحديثات والدعم</h2>
+      <p>تشمل الباقات المدفوعة تحديثات مجانية وفق المدة المحددة في كل باقة. يتم تقديم الدعم الفني عبر واتساب والبريد الإلكتروني خلال ساعات العمل الرسمية.</p>
+
+      <h2><i class="fa-solid fa-triangle-exclamation"></i> إخلاء المسؤولية</h2>
+      <p>يُقدَّم نظام شفاء "كما هو" لأغراض إدارية بحتة. لا تتحمل شفاء مسؤولية أي قرارات طبية أو صيدلانية تُتخذ بناءً على بيانات النظام. يتحمل المستخدم كامل المسؤولية عن دقة البيانات المُدخَلة.</p>
+
+      <h2><i class="fa-solid fa-scale-balanced"></i> القانون المطبق</h2>
+      <p>تخضع هذه الشروط لقوانين جمهورية مصر العربية، وتُحل أي نزاعات عبر التفاوض الودي في المقام الأول.</p>
+
+      <h2><i class="fa-solid fa-envelope"></i> التواصل</h2>
+      <p>لأي استفسار قانوني أو تعاقدي، تواصل معنا عبر:<br/>
+      البريد الإلكتروني: <a href="mailto:aeroteam.agency@gmail.com">aeroteam.agency@gmail.com</a><br/>
+      الهاتف: <a href="tel:+201108710742" dir="ltr">+20 110 871 0742</a></p>
     </div>
   </div>
-</section>
 
-<!-- ============ ANALYTICS ============ -->
-<section id="analytics" class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(34,211,238,0.03),transparent);">
-  <div class="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-14 items-center">
-    <div class="reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-5">Know your numbers. Grow your cafe.</h2>
-      <p class="text-slate-400 text-[16px] leading-relaxed mb-8 max-w-lg">Every session feeds live analytics, so you always know where your revenue comes from and where it's slipping away.</p>
-
-      <div class="space-y-4">
-        <div class="flex gap-3.5">
-          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(124,58,237,0.12);"><i data-lucide="clock" class="w-[18px] h-[18px] text-violet-300"></i></div>
-          <div>
-            <p class="text-white font-medium text-[15px]">Identify your busiest hours</p>
-            <p class="text-slate-500 text-[13.5px]">Staff and stock up before demand hits.</p>
-          </div>
-        </div>
-        <div class="flex gap-3.5">
-          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(34,211,238,0.12);"><i data-lucide="monitor" class="w-[18px] h-[18px] text-cyan-300"></i></div>
-          <div>
-            <p class="text-white font-medium text-[15px]">See which devices generate the most revenue</p>
-            <p class="text-slate-500 text-[13.5px]">Reinvest in what's actually paying off.</p>
-          </div>
-        </div>
-        <div class="flex gap-3.5">
-          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(124,58,237,0.12);"><i data-lucide="user-check" class="w-[18px] h-[18px] text-violet-300"></i></div>
-          <div>
-            <p class="text-white font-medium text-[15px]">Understand customer behavior</p>
-            <p class="text-slate-500 text-[13.5px]">See who your regulars are and what they play.</p>
-          </div>
-        </div>
-        <div class="flex gap-3.5">
-          <div class="w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" style="background:rgba(34,211,238,0.12);"><i data-lucide="wand-sparkles" class="w-[18px] h-[18px] text-cyan-300"></i></div>
-          <div>
-            <p class="text-white font-medium text-[15px]">Make better pricing decisions</p>
-            <p class="text-slate-500 text-[13.5px]">Set rates based on real demand, not guesswork.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="reveal" style="transition-delay:.1s">
-      <div class="panel glow-border p-6">
-        <div class="flex items-center justify-between mb-6">
-          <p class="text-white font-semibold text-[15px]">Daily revenue</p>
-          <div class="flex rounded-full p-0.5 text-[11px]" style="background:rgba(255,255,255,0.04); border:1px solid var(--panel-line);">
-            <span class="px-2.5 py-1 rounded-full text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">Week</span>
-            <span class="px-2.5 py-1 text-slate-500">Month</span>
-          </div>
-        </div>
-        <div class="flex items-end gap-2.5 h-36 mb-2" id="chartBars">
-          <div class="flex-1 rounded-t-md" style="height:38%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
-          <div class="flex-1 rounded-t-md" style="height:55%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
-          <div class="flex-1 rounded-t-md" style="height:44%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
-          <div class="flex-1 rounded-t-md" style="height:70%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
-          <div class="flex-1 rounded-t-md" style="height:62%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
-          <div class="flex-1 rounded-t-md" style="height:88%; background:linear-gradient(180deg,var(--cyan),rgba(34,211,238,0.15));"></div>
-          <div class="flex-1 rounded-t-md" style="height:76%; background:linear-gradient(180deg,var(--purple-2),rgba(124,58,237,0.15));"></div>
-        </div>
-        <div class="flex justify-between text-[10.5px] text-slate-500 mb-8">
-          <span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
-        </div>
-
-        <div class="grid grid-cols-3 gap-3">
-          <div class="rounded-xl p-3.5" style="background:var(--bg-0); border:1px solid var(--panel-line);">
-            <p class="text-[10.5px] text-slate-500 mb-1">Total earnings</p>
-            <p class="text-[16px] font-bold text-white counter" data-target="34620" style="font-family:'Plus Jakarta Sans',sans-serif;">0</p>
-          </div>
-          <div class="rounded-xl p-3.5" style="background:var(--bg-0); border:1px solid var(--panel-line);">
-            <p class="text-[10.5px] text-slate-500 mb-1">Sessions</p>
-            <p class="text-[16px] font-bold text-white counter" data-target="412" style="font-family:'Plus Jakarta Sans',sans-serif;">0</p>
-          </div>
-          <div class="rounded-xl p-3.5" style="background:var(--bg-0); border:1px solid var(--panel-line);">
-            <p class="text-[10.5px] text-slate-500 mb-1">Avg. duration</p>
-            <p class="text-[16px] font-bold text-white" style="font-family:'Plus Jakarta Sans',sans-serif;">1h 48m</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BOOKING ============ -->
-<section class="relative py-24 md:py-28">
-  <div class="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-14 items-center">
-    <div class="order-2 lg:order-1 reveal">
-      <div class="panel glow-border p-6">
-        <div class="flex items-center justify-between mb-5">
-          <p class="text-white font-semibold text-[15px]">Upcoming bookings</p>
-          <span class="text-[11px] px-2.5 py-1 rounded-full text-cyan-300" style="background:rgba(34,211,238,0.1); border:1px solid rgba(34,211,238,0.2);">Today</span>
-        </div>
-        <div class="space-y-3">
-          <div class="flex items-center justify-between p-3.5 rounded-xl" style="background:var(--bg-0); border:1px solid var(--panel-line);">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">AM</div>
-              <div>
-                <p class="text-white text-[13.5px] font-medium">Ahmed Mohamed</p>
-                <p class="text-slate-500 text-[11.5px]">PS5 #04 · 8:00 PM – 10:00 PM</p>
-              </div>
-            </div>
-            <span class="text-[11px] px-2.5 py-1 rounded-full text-emerald-300" style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2);">Confirmed</span>
-          </div>
-          <div class="flex items-center justify-between p-3.5 rounded-xl" style="background:var(--bg-0); border:1px solid var(--panel-line);">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--cyan-2),var(--purple-3));">SY</div>
-              <div>
-                <p class="text-white text-[13.5px] font-medium">Sara Youssef</p>
-                <p class="text-slate-500 text-[11.5px]">PS4 Room · 9:30 PM – 11:00 PM</p>
-              </div>
-            </div>
-            <span class="text-[11px] px-2.5 py-1 rounded-full text-amber-300" style="background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2);">Pending</span>
-          </div>
-          <div class="flex items-center justify-between p-3.5 rounded-xl" style="background:var(--bg-0); border:1px solid var(--panel-line);">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--cyan));">KH</div>
-              <div>
-                <p class="text-white text-[13.5px] font-medium">Karim Hassan</p>
-                <p class="text-slate-500 text-[11.5px]">PS5 #02 · 10:00 PM – 11:30 PM</p>
-              </div>
-            </div>
-            <span class="text-[11px] px-2.5 py-1 rounded-full text-emerald-300" style="background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.2);">Confirmed</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="order-1 lg:order-2 reveal" style="transition-delay:.1s">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-5">Never miss a reservation.</h2>
-      <p class="text-slate-400 text-[16px] leading-relaxed mb-8 max-w-lg">Pick a device, a time slot, and a customer — PS Cafe Manager blocks double-bookings before they happen.</p>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="flex items-center gap-2.5"><i data-lucide="calendar" class="w-[18px] h-[18px] text-violet-300"></i><span class="text-slate-300 text-[13.5px]">Full calendar view</span></div>
-        <div class="flex items-center gap-2.5"><i data-lucide="tv-2" class="w-[18px] h-[18px] text-cyan-300"></i><span class="text-slate-300 text-[13.5px]">Live device availability</span></div>
-        <div class="flex items-center gap-2.5"><i data-lucide="clock-4" class="w-[18px] h-[18px] text-violet-300"></i><span class="text-slate-300 text-[13.5px]">Custom time slots</span></div>
-        <div class="flex items-center gap-2.5"><i data-lucide="badge-check" class="w-[18px] h-[18px] text-cyan-300"></i><span class="text-slate-300 text-[13.5px]">Booking status tracking</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ HOW IT WORKS ============ -->
-<section id="how-it-works" class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(124,58,237,0.03),transparent);">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-2xl mb-16 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Up and running in three steps.</h2>
-      <p class="text-slate-400 text-[16px] leading-relaxed">No lengthy onboarding — most cafes are fully set up within an hour.</p>
-    </div>
-
-    <div class="relative grid md:grid-cols-3 gap-8">
-      <div class="hidden md:block absolute top-6 left-[16.5%] right-[16.5%] h-px" style="background:linear-gradient(90deg,transparent,rgba(139,92,246,0.4),rgba(34,211,238,0.4),transparent);"></div>
-
-      <div class="reveal">
-        <div class="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold text-white mb-6 relative z-10" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3)); box-shadow:0 0 0 6px var(--bg-0);">1</div>
-        <h3 class="text-white font-semibold text-[18px] mb-2.5">Add your devices</h3>
-        <p class="text-slate-400 text-[14px] leading-relaxed">Register your PS4s, PS5s, rooms, and any custom gaming stations, each with its own hourly rate.</p>
-      </div>
-      <div class="reveal" style="transition-delay:.1s">
-        <div class="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold text-white mb-6 relative z-10" style="background:linear-gradient(135deg,var(--purple-2),var(--cyan)); box-shadow:0 0 0 6px var(--bg-0);">2</div>
-        <h3 class="text-white font-semibold text-[18px] mb-2.5">Start managing sessions</h3>
-        <p class="text-slate-400 text-[14px] leading-relaxed">Start and stop sessions, manage bookings, and let pricing be calculated automatically.</p>
-      </div>
-      <div class="reveal" style="transition-delay:.2s">
-        <div class="w-12 h-12 rounded-full flex items-center justify-center text-[15px] font-bold text-white mb-6 relative z-10" style="background:linear-gradient(135deg,var(--cyan-2),var(--purple-3)); box-shadow:0 0 0 6px var(--bg-0);">3</div>
-        <h3 class="text-white font-semibold text-[18px] mb-2.5">Grow your business</h3>
-        <p class="text-slate-400 text-[14px] leading-relaxed">Use analytics and reports to understand revenue, peak hours, and device performance.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ COMPARISON ============ -->
-<section class="relative py-24 md:py-28">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-2xl mb-14 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Built for gaming cafes. Not generic businesses.</h2>
-      <p class="text-slate-400 text-[16px] leading-relaxed">General-purpose POS systems weren't designed around sessions, devices, and gamers.</p>
-    </div>
-
-    <div class="panel overflow-hidden reveal">
-      <div class="grid grid-cols-2">
-        <div class="p-5 md:p-6 border-r" style="border-color:var(--panel-line);">
-          <p class="text-slate-500 font-medium text-[13px] md:text-[14px]">Traditional management</p>
-        </div>
-        <div class="p-5 md:p-6">
-          <p class="font-semibold text-[13px] md:text-[14px] grad-text">PS Cafe Manager</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 table-row-line">
-        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Manual timing</div>
-        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Automatic timing</div>
-      </div>
-      <div class="grid grid-cols-2 table-row-line">
-        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Paper records</div>
-        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Digital records</div>
-      </div>
-      <div class="grid grid-cols-2 table-row-line">
-        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Manual calculations</div>
-        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Automatic billing</div>
-      </div>
-      <div class="grid grid-cols-2 table-row-line">
-        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Guessing revenue</div>
-        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Real-time analytics</div>
-      </div>
-      <div class="grid grid-cols-2 table-row-line">
-        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>Messy bookings</div>
-        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Organized reservations</div>
-      </div>
-      <div class="grid grid-cols-2">
-        <div class="p-5 md:p-6 border-r flex items-center gap-2.5 text-slate-400 text-[13.5px] md:text-[14.5px]" style="border-color:var(--panel-line);"><i data-lucide="x" class="w-4 h-4 text-slate-600 shrink-0"></i>No device overview</div>
-        <div class="p-5 md:p-6 flex items-center gap-2.5 text-white text-[13.5px] md:text-[14.5px]"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Complete device management</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BENEFITS ============ -->
-<section class="relative py-24 md:py-28" style="background:linear-gradient(180deg,transparent,rgba(34,211,238,0.03),transparent);">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-2xl mb-14 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Why cafe owners switch.</h2>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      <div class="panel panel-hover reveal p-6">
-        <i data-lucide="clock-4" class="w-6 h-6 text-violet-300 mb-4"></i>
-        <h3 class="text-white font-semibold text-[15.5px] mb-2">Save time</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Automate repetitive cafe management tasks.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.04s">
-        <i data-lucide="target" class="w-6 h-6 text-cyan-300 mb-4"></i>
-        <h3 class="text-white font-semibold text-[15.5px] mb-2">Reduce errors</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Eliminate manual timing and calculation mistakes.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.08s">
-        <i data-lucide="trending-up" class="w-6 h-6 text-violet-300 mb-4"></i>
-        <h3 class="text-white font-semibold text-[15.5px] mb-2">Increase revenue</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Understand your best-performing devices and hours.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.12s">
-        <i data-lucide="smile" class="w-6 h-6 text-cyan-300 mb-4"></i>
-        <h3 class="text-white font-semibold text-[15.5px] mb-2">Improve customer experience</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Faster bookings and smoother sessions.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.16s">
-        <i data-lucide="folder-check" class="w-6 h-6 text-violet-300 mb-4"></i>
-        <h3 class="text-white font-semibold text-[15.5px] mb-2">Stay organized</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Sessions, customers, bookings, and payments in one place.</p>
-      </div>
-      <div class="panel panel-hover reveal p-6" style="transition-delay:.2s">
-        <i data-lucide="brain" class="w-6 h-6 text-cyan-300 mb-4"></i>
-        <h3 class="text-white font-semibold text-[15.5px] mb-2">Make better decisions</h3>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed">Use real data instead of guessing.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ TESTIMONIALS ============ -->
-<section class="relative py-24 md:py-28">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="max-w-2xl mb-14 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-3">What cafe owners say</h2>
-      <p class="text-slate-500 text-[13.5px]">Demo testimonials for illustration.</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-5">
-      <div class="panel reveal p-6">
-        <div class="flex gap-1 mb-4">
-          <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
-        </div>
-        <p class="text-slate-300 text-[14px] leading-relaxed mb-6">"PS Cafe Manager completely changed how we manage our sessions. Everything is faster and more organized now."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">AH</div>
-          <div><p class="text-white text-[13px] font-medium">Ahmed</p><p class="text-slate-500 text-[11.5px]">Gaming Cafe Owner</p></div>
-        </div>
-      </div>
-      <div class="panel reveal p-6" style="transition-delay:.05s">
-        <div class="flex gap-1 mb-4">
-          <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
-        </div>
-        <p class="text-slate-300 text-[14px] leading-relaxed mb-6">"Bookings used to be chaos on a whiteboard. Now conflicts just can't happen — the system catches them before staff do."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--cyan-2),var(--purple-3));">MN</div>
-          <div><p class="text-white text-[13px] font-medium">Mona</p><p class="text-slate-500 text-[11.5px]">PlayStation Lounge Owner</p></div>
-        </div>
-      </div>
-      <div class="panel reveal p-6" style="transition-delay:.1s">
-        <div class="flex gap-1 mb-4">
-          <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i><i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
-        </div>
-        <p class="text-slate-300 text-[14px] leading-relaxed mb-6">"The analytics finally told me which room was actually making money. I moved two PS4s into a VIP room and revenue jumped."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[12px] font-semibold text-white" style="background:linear-gradient(135deg,var(--purple-2),var(--cyan));">YK</div>
-          <div><p class="text-white text-[13px] font-medium">Youssef</p><p class="text-slate-500 text-[11.5px]">Multi-branch Cafe Owner</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ DOWNLOAD / CTA ============ -->
-<section id="download" class="relative py-28 md:py-36 overflow-hidden">
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] glow-purple pointer-events-none"></div>
-  <div class="relative max-w-3xl mx-auto px-5 md:px-8 text-center reveal">
-    <h2 class="text-[32px] md:text-[46px] font-extrabold text-white mb-5 leading-[1.08]">Ready to run your cafe smarter?</h2>
-    <p class="text-slate-400 text-[16px] md:text-[18px] mb-10 max-w-xl mx-auto">Take control of your PlayStation cafe with PS Cafe Manager.</p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-      <a href="#" class="btn-primary px-8 py-4 rounded-xl text-[15.5px] font-semibold text-white inline-flex items-center justify-center gap-2">
-        <i data-lucide="download" class="w-5 h-5"></i> Download PS Cafe Manager
-      </a>
-      <a href="#features" class="btn-ghost px-8 py-4 rounded-xl text-[15.5px] font-semibold text-slate-100">View Features</a>
-    </div>
-    <p class="text-[12.5px] text-slate-500">Windows desktop application · Free to get started</p>
-  </div>
-</section>
-
-<!-- ============ FAQ ============ -->
-<section id="faq" class="relative py-24 md:py-28">
-  <div class="max-w-3xl mx-auto px-5 md:px-8">
-    <div class="mb-12 reveal">
-      <h2 class="text-[30px] md:text-[38px] font-extrabold text-white mb-4">Frequently asked questions</h2>
-    </div>
-
-    <div class="space-y-3 reveal" id="faqList">
-      <!-- items injected via JS-friendly markup below -->
-      <details class="accordion-item panel p-5" open>
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">What is PS Cafe Manager?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">A desktop application that helps PlayStation cafe owners manage sessions, bookings, devices, pricing, customers, and revenue from one place.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Who is PS Cafe Manager designed for?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Owners and staff of PlayStation and gaming cafes — from single-room setups to multi-branch operations.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Does it support PS4 and PS5?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — PS4, PS4 Room, PS5, and custom device types are all supported.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Can I create different prices for different devices?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — each device or device type can have its own hourly price, minimum charge, and special pricing.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Can I manage bookings?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — create, change, or cancel reservations, and overlapping bookings are prevented automatically.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Can I track revenue?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — view daily, weekly, and monthly revenue, plus a breakdown by device and device type.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Does it support Arabic?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — the full interface is available in English and Arabic, including right-to-left layout.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Can multiple staff members use the system?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — create staff accounts with Owner, Manager, or Staff roles and set specific permissions for each.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Can I export reports?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — generate daily, weekly, and monthly reports and export them to PDF or Excel/CSV.</p>
-      </details>
-      <details class="accordion-item panel p-5">
-        <summary class="flex items-center justify-between gap-4">
-          <span class="text-white font-medium text-[15px]">Is my data backed up?</span>
-          <i data-lucide="plus" class="chev w-[18px] h-[18px] text-slate-400 transition-transform duration-200 shrink-0"></i>
-        </summary>
-        <p class="text-slate-400 text-[13.5px] leading-relaxed mt-3">Yes — PS Cafe Manager supports automatic backups, manual backups, and full data restore.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
-<section class="relative py-24 md:py-28 border-t" style="border-color:rgba(148,163,184,0.08);">
-  <div class="max-w-4xl mx-auto px-5 md:px-8 text-center reveal">
-    <h2 class="text-[26px] md:text-[34px] font-extrabold text-white mb-4">Your cafe deserves better management.</h2>
-    <p class="text-slate-500 text-[14.5px] mb-8">Manage. Track. Analyze. Grow.</p>
-    <a href="#" class="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-[15px] font-semibold text-white">
-      <i data-lucide="download" class="w-[18px] h-[18px]"></i> Download PS Cafe Manager
-    </a>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
-<footer class="relative pt-16 pb-8 border-t" style="border-color:rgba(148,163,184,0.08);">
-  <div class="max-w-7xl mx-auto px-5 md:px-8">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
-      <div class="lg:col-span-2">
-        <div class="flex items-center gap-2.5 mb-4">
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,var(--purple-2),var(--purple-3));">
-            <i data-lucide="gamepad-2" class="w-[18px] h-[18px] text-white"></i>
-          </div>
-          <span class="font-semibold text-[14px]" style="font-family:'Plus Jakarta Sans',sans-serif;">PS Cafe Manager</span>
-        </div>
-        <p class="text-slate-500 text-[13.5px] leading-relaxed max-w-xs">Professional PlayStation cafe management made simple.</p>
-      </div>
-      <div>
-        <p class="text-slate-300 font-medium text-[13px] mb-4">Navigation</p>
-        <div class="space-y-2.5 text-[13.5px] text-slate-500">
-          <a href="#home" class="block hover:text-slate-300 transition-colors">Home</a>
-          <a href="#features" class="block hover:text-slate-300 transition-colors">Features</a>
-          <a href="#how-it-works" class="block hover:text-slate-300 transition-colors">How It Works</a>
-          <a href="#analytics" class="block hover:text-slate-300 transition-colors">Analytics</a>
-          <a href="#faq" class="block hover:text-slate-300 transition-colors">FAQ</a>
-        </div>
-      </div>
-      <div>
-        <p class="text-slate-300 font-medium text-[13px] mb-4">Product</p>
-        <div class="space-y-2.5 text-[13.5px] text-slate-500">
-          <a href="#download" class="block hover:text-slate-300 transition-colors">Download</a>
-          <a href="#" class="block hover:text-slate-300 transition-colors">Documentation</a>
-          <a href="#" class="block hover:text-slate-300 transition-colors">Updates</a>
-        </div>
-      </div>
-      <div>
-        <p class="text-slate-300 font-medium text-[13px] mb-4">Support</p>
-        <div class="space-y-2.5 text-[13.5px] text-slate-500">
-          <a href="#" class="block hover:text-slate-300 transition-colors">Contact</a>
-          <a href="#" class="block hover:text-slate-300 transition-colors">Help Center</a>
-        </div>
-      </div>
-    </div>
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t" style="border-color:rgba(148,163,184,0.08);">
-      <p class="text-slate-600 text-[12.5px]">© 2026 PS Cafe Manager. All rights reserved.</p>
-      <div class="flex items-center gap-1 rounded-full p-0.5 text-[11.5px]" style="background:rgba(255,255,255,0.03); border:1px solid rgba(148,163,184,0.12);">
-        <span class="px-3 py-1 rounded-full text-white" style="background:rgba(124,58,237,0.4);">English</span>
-        <span class="px-3 py-1 rounded-full text-slate-500">العربية</span>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script>
-  try { lucide.createIcons(); } catch (e) { console.warn('Icons failed to load', e); }
-
-  // navbar glass on scroll
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) navbar.classList.add('nav-glass');
-    else navbar.classList.remove('nav-glass');
-  });
-
-  // mobile menu
-  const menuBtn = document.getElementById('menuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  menuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-  });
-  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
-
-  // scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) { revealEls.forEach(el => el.classList.add('in')); }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
+  <script>
+    // ===== Navbar scroll =====
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.style.background = window.scrollY > 50
+        ? 'rgba(8,13,26,0.98)'
+        : 'rgba(8,13,26,0.9)';
     });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => io.observe(el));
 
-  // animated counters
-  const counters = document.querySelectorAll('.counter');
-  const counterIO = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.target, 10);
-        let start = 0;
-        const duration = 1200;
-        const startTime = performance.now();
-        function tick(now){
-          const p = Math.min((now - startTime) / duration, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.floor(eased * target).toLocaleString();
-          if (p < 1) requestAnimationFrame(tick);
+    // ===== Scroll reveal =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
-        requestAnimationFrame(tick);
-        counterIO.unobserve(el);
-      }
-    });
-  }, { threshold: 0.4 });
-  counters.forEach(c => counterIO.observe(c));
+      });
+    }, { threshold: 0.1 });
 
-  // faq accordion — only one open at a time
-  const faqList = document.getElementById('faqList');
-  faqList.querySelectorAll('details').forEach(d => {
-    d.addEventListener('toggle', () => {
-      if (d.open) {
-        faqList.querySelectorAll('details').forEach(other => {
-          if (other !== d) other.open = false;
-        });
-      }
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ===== Chart bars =====
+    const heights = [38, 62, 48, 80, 68, 90, 52];
+    const chart   = document.getElementById('animChart');
+    heights.forEach((h, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      bar.style.height = '0%';
+      bar.style.transition = `height 0.6s ease ${i * 0.1}s`;
+      chart.appendChild(bar);
+      setTimeout(() => { bar.style.height = h + '%'; }, 400 + i * 80);
     });
-  });
-  setTimeout(() => revealEls.forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in'); }), 2500);
-</script>
+
+    // ===== Contact Modal =====
+    function openContactModal() {
+      document.getElementById('contactModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeContactModal() {
+      document.getElementById('contactModal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // ===== Contact Form =====
+    function submitForm(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
+      btn.disabled = true;
+      setTimeout(() => {
+        document.getElementById('contactForm').style.display = 'none';
+        const success = document.getElementById('formSuccess');
+        success.style.display = 'block';
+        success.style.animation = 'slideUp 0.3s ease';
+      }, 1200);
+    }
+
+    // ===== Legal Pages =====
+    function showLegal(type) {
+      hideLegal(false);
+      const page = type === 'privacy' ? 'privacyPage' : 'termsPage';
+      document.getElementById(page).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function hideLegal(scroll = true) {
+      document.getElementById('privacyPage').classList.remove('active');
+      document.getElementById('termsPage').classList.remove('active');
+      if (scroll) window.scrollTo(0, 0);
+    }
+  </script>
 </body>
 </html>
